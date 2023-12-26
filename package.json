@@ -6,15 +6,22 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "gen-clients": "protoc --experimental_allow_proto3_optional --ts_out clients/gen/ --proto_path=proto/ proto/*.proto"
   },
   "dependencies": {
+    "@grpc/grpc-js": "^1.9.13",
+    "@protobuf-ts/grpc-transport": "^2.9.3",
+    "@protobuf-ts/grpcweb-transport": "^2.9.3",
+    "@protobuf-ts/runtime": "^2.9.3",
+    "@protobuf-ts/runtime-rpc": "^2.9.3",
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18",
     "swr": "^2.2.4"
   },
   "devDependencies": {
+    "@protobuf-ts/plugin": "^2.9.3",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
