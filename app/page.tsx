@@ -1,9 +1,14 @@
+'use client'
 import React, { useState } from 'react';
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 
 
 export default function Home() {
+
+  const s = new PlanesClient(webTransport);
+  s.listPlanes({}).then((planes) => console.log(planes));
+
   const [departure, setDeparture] = useState('');
   const [destination, setDestination] = useState('');
   const [departureDate, setDepartureDate] = useState('');
