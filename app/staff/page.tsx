@@ -1,6 +1,6 @@
 //Connection to Boarding service
 
-export default function Flights(){
+export default function Staff(){
     return (
         <div></div>
     )

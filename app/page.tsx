@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import Header from "@/components/header"
 import Footer from "@/components/footer"
-import useSWR from 'swr'
 
 
-//https://nextjs.org/docs/pages/building-your-application/data-fetching/client-side
 export default function Home() {
   const [departure, setDeparture] = useState('');
   const [destination, setDestination] = useState('');
@@ -14,7 +12,7 @@ export default function Home() {
 
   return (
     <>
-      <Header></Header>
+      <Header />
       <main>
         <h1>Welcome to Horizon Airline!</h1>
         <div>
@@ -60,7 +58,7 @@ export default function Home() {
         </div>
 
       </main>
-      <Footer></Footer>
+      <Footer />
     </>
   )
 }
