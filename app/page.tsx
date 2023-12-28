@@ -1,11 +1,18 @@
+'use client'
 import React, { useState } from 'react';
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import useSWR from 'swr'
+import { PlanesClient } from '@/clients/gen/planes.client';
+import { webTransport } from '@/clients/transports/web';
 
 
 //https://nextjs.org/docs/pages/building-your-application/data-fetching/client-side
 export default function Home() {
+
+  const s = new PlanesClient(webTransport);
+  s.listPlanes({}).then((planes) => console.log(planes));
+
   const [departure, setDeparture] = useState('');
   const [destination, setDestination] = useState('');
   const [departureDate, setDepartureDate] = useState('');
