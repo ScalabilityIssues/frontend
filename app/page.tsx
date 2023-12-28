@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+import { PlanesClient } from '@/clients/gen/planes.client';
+import { webTransport } from '@/clients/transports/web';
 
 
 export default function Home() {
