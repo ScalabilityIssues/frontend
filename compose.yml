@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  
+  proxy:
+    image: traefik:3.0
+    ports:
+      - 60001:50051
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command:
+      - --api.insecure=true
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      # grpc entrypoint
+      - --entrypoints.grpc.address=:50051
+  
+  flightmngr:
+    image: ghcr.io/scalabilityissues/flight-manager:main
+    environment:
+      DATABASE_URL: postgres://postgres:pwd@flightmngr-db:5432
+    ports:
+      - 60051:50051
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.flightmngr.rule=PathPrefix(`/flightmngr.`)
+      - traefik.http.routers.flightmngr.middlewares=grpcweb
+      - traefik.http.services.flightmngr.loadbalancer.server.port=50051
+      - traefik.http.services.flightmngr.loadbalancer.server.scheme=h2c
+      - traefik.http.middlewares.grpcweb.grpcweb.allowOrigins=*
+
+  flightmngr-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_PASSWORD: pwd
+
