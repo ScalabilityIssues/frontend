@@ -1,15 +1,21 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from "@/components/header"
 import Footer from "@/components/footer"
-import { PlanesClient } from '@/clients/gen/planes.client';
 import { webTransport } from '@/clients/transports/web';
+import { exampleServerGRPC } from '@/components/example';
+import { AirportsClient } from '@/clients/gen/airports.client';
 
 
 export default function Home() {
 
-  const s = new PlanesClient(webTransport);
-  s.listPlanes({}).then((planes) => console.log(planes));
+  // example of server call
+  useEffect(() => {
+    exampleServerGRPC().then((planes) => console.log(planes));
+  });
+  // example of client call
+  const s = new AirportsClient(webTransport);
+  s.listAirports({}).then((planes) => console.log(planes.response));
 
   const [departure, setDeparture] = useState('');
   const [destination, setDestination] = useState('');
