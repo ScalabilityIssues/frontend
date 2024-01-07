@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "gen-clients": "protoc --experimental_allow_proto3_optional --ts_out clients/gen/ --proto_path=proto/ proto/*.proto"
+    "gen-clients": "protoc --experimental_allow_proto3_optional --ts_out clients/gen/ --proto_path=proto/ proto/*.proto",
+    "backend": "docker compose up -d --pull always"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.9.13",
