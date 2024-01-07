@@ -27,9 +27,9 @@ export default function Home() {
     <>
       <Header />
       <main>
-        <h1>Welcome to Horizon Airline!</h1>
-        <div>
-          <form>
+        <div className='flex items-center justify-center text-3xl'> <h1> Welcome to Horizon Airline! </h1></div>
+        <div className='flex items-center justify-left'>
+          <form className="bg-blue-200 p-8 rounded-lg grid grid-cols-2 gap-4">
             <label htmlFor="departure">Departure:</label>
             <input
               type="text"
@@ -37,6 +37,7 @@ export default function Home() {
               value={departure}
               onChange={(e) => setDeparture(e.target.value)} //must fetch airports from flight management service
             />
+
             <label htmlFor="destination">Destination:</label>
             <input
               type="text"
@@ -44,6 +45,7 @@ export default function Home() {
               value={destination}
               onChange={(e) => setDestination(e.target.value)} //must fetch airports from flight management service
             />
+
             <label htmlFor="departureDate">Departure Date:</label>
             <input
               type="date"
@@ -51,6 +53,7 @@ export default function Home() {
               value={departureDate}
               onChange={(e) => setDepartureDate(e.target.value)}
             />
+
             <label htmlFor="returnDate">Return Date:</label>
             <input
               type="date"
@@ -58,6 +61,7 @@ export default function Home() {
               value={returnDate}
               onChange={(e) => setReturnDate(e.target.value)}
             />
+
             <label htmlFor="numPassengers">Number of Passengers:</label>
             <input
               type="number"
@@ -66,7 +70,10 @@ export default function Home() {
               onChange={(e) => setNumPassengers(parseInt(e.target.value))}
               min="1"
             />
-            <button type="submit">Search Flights</button>
+
+            <button type="submit">
+              Search Flights
+            </button>
           </form>
         </div>
 
