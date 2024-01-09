@@ -27,9 +27,8 @@ export default function Home() {
     <>
       <Header />
       <main>
-        <div className='flex items-center justify-center text-3xl'> <h1> Welcome to Horizon Airline! </h1></div>
-        <div className='flex items-center justify-left'>
-          <form className="bg-blue-200 p-8 rounded-lg grid grid-cols-2 gap-4">
+        <div className='flex items-center justify-center'>
+          <form className="bg-blue-200 p-8 rounded-lg grid grid-cols-6 gap-4">
             <label htmlFor="departure">Departure:</label>
             <input
               type="text"
@@ -70,10 +69,12 @@ export default function Home() {
               onChange={(e) => setNumPassengers(parseInt(e.target.value))}
               min="1"
             />
-
-            <button type="submit">
-              Search Flights
-            </button>
+            <div>
+              <button type="submit" className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                Search Flights
+              </button>
+            </div>
+               
           </form>
         </div>
 
