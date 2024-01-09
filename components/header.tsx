@@ -10,11 +10,11 @@ export default function Header() {
                     <Link href="/" aria-current="page">
                         <Image src="/logo.png" alt="Logo" width={50} height={50} className ="rounded-full"></Image>
                     </Link>
-                    <Link href="/staff" className="text-white hover:bg-blue-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Staff</Link>
+                    <Link href="/staff" className="text-white hover:bg-blue-700 hover:text-white rounded-md px-3 py-2 pt-4 text-sm font-medium">Staff</Link>
                     {/*
                     <Link href="/admin" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Admin</Link>
                     */}
-                    <Link href="/" className="text-white hover:bg-blue-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Login</Link>
+                    <Link href="/" className="text-white hover:bg-blue-700 hover:text-white rounded-md px-3 py-2 pt-4 text-sm font-medium">Login</Link>
                 </div>
             </div>
         </nav>
