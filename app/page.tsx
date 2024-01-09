@@ -33,6 +33,7 @@ export default function Home() {
             <input
               type="text"
               id="departure"
+              className='rounded-lg'
               value={departure}
               onChange={(e) => setDeparture(e.target.value)} //must fetch airports from flight management service
             />
@@ -41,6 +42,7 @@ export default function Home() {
             <input
               type="text"
               id="destination"
+              className='rounded-lg'
               value={destination}
               onChange={(e) => setDestination(e.target.value)} //must fetch airports from flight management service
             />
@@ -49,6 +51,7 @@ export default function Home() {
             <input
               type="date"
               id="departureDate"
+              className='rounded-lg'
               value={departureDate}
               onChange={(e) => setDepartureDate(e.target.value)}
             />
@@ -57,6 +60,7 @@ export default function Home() {
             <input
               type="date"
               id="returnDate"
+              className='rounded-lg'
               value={returnDate}
               onChange={(e) => setReturnDate(e.target.value)}
             />
@@ -65,12 +69,13 @@ export default function Home() {
             <input
               type="number"
               id="numPassengers"
+              className='rounded-lg'
               value={numPassengers}
               onChange={(e) => setNumPassengers(parseInt(e.target.value))}
               min="1"
             />
             <div>
-              <button type="submit" className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              <button type="submit" className="rounded-lg bg-blue-500 px-3 py-2 text-sm font-extrabold text-white hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700">
                 Search Flights
               </button>
             </div>
