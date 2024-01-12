@@ -2,11 +2,11 @@ export default function LoginForm() {
    
     return (
     <div className='flex items-center justify-center'>
-        <form className="bg-blue-200 p-8 rounded-lg ">
-            <div className="grid grid-cols-1 ">
-                <h1> Login Page</h1>
+        <form className="bg-cyan-300 p-8 rounded-lg ">
+            
+                <h1 className="flex items-center justify-center text-3xl pb-4"> Log in Horizon Airline</h1>
                 <div className="grid grid-cols-2 pt-4 pb-2">
-                    <label htmlFor="username">Username:</label>
+                    <label className="flex justify-center" htmlFor="username">Username:</label>
                     <input
                     type="text"
                     id="username"
@@ -15,7 +15,7 @@ export default function LoginForm() {
                     />
                 </div>
                 <div className="grid grid-cols-2 pt-2 pb-4">
-                    <label htmlFor="password">Password:</label>
+                    <label className="flex justify-center" htmlFor="password">Password:</label>
                     <input
                     type="password"
                     id="password"
@@ -23,12 +23,12 @@ export default function LoginForm() {
                     className='rounded-lg'
                     />
                 </div>
-                <div className="flex items-center justify-center">
-                    <button type="submit" className="justify-center rounded-lg bg-blue-700 pl-6 pr-6 text-sm font-extrabold text-white hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-800">
+                <div className="flex items-center justify-center pt-2">
+                    <button type="submit" className="justify-center rounded-full bg-cyan-700 pt-1 pb-1 pl-5 pr-5 text-sm font-extrabold text-white hover:bg-cyan-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-800">
                         Login
                     </button>
                 </div>
-            </div>
+            
         </form>
     </div>
     );
