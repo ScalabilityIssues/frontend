@@ -28,12 +28,12 @@ export default function Home() {
       <Header />
       <main>
         <div className='flex items-center justify-center'>
-          <form className="bg-blue-200 p-8 rounded-lg grid grid-cols-6 gap-4">
+          <form className="bg-blue-200 p-8 rounded-lg grid grid-cols-2 gap-4">
             <label htmlFor="departure">Departure:</label>
             <input
               type="text"
               id="departure"
-              className='rounded-lg'
+              className='pl-2 rounded-lg'
               value={departure}
               onChange={(e) => setDeparture(e.target.value)} //must fetch airports from flight management service
             />
@@ -42,7 +42,7 @@ export default function Home() {
             <input
               type="text"
               id="destination"
-              className='rounded-lg'
+              className='pl-2 rounded-lg'
               value={destination}
               onChange={(e) => setDestination(e.target.value)} //must fetch airports from flight management service
             />
@@ -51,7 +51,7 @@ export default function Home() {
             <input
               type="date"
               id="departureDate"
-              className='rounded-lg'
+              className='pl-2 rounded-lg'
               value={departureDate}
               onChange={(e) => setDepartureDate(e.target.value)}
             />
@@ -60,7 +60,7 @@ export default function Home() {
             <input
               type="date"
               id="returnDate"
-              className='rounded-lg'
+              className='pl-2 rounded-lg'
               value={returnDate}
               onChange={(e) => setReturnDate(e.target.value)}
             />
@@ -69,7 +69,7 @@ export default function Home() {
             <input
               type="number"
               id="numPassengers"
-              className='rounded-lg'
+              className='pl-2 rounded-lg'
               value={numPassengers}
               onChange={(e) => setNumPassengers(parseInt(e.target.value))}
               min="1"
