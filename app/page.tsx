@@ -9,13 +9,13 @@ import { AirportsClient } from '@/clients/gen/airports.client';
 
 export default function Home() {
 
-  // example of server call
+  /* // example of server call
   useEffect(() => {
     exampleServerGRPC().then((planes) => console.log(planes));
   });
   // example of client call
   const s = new AirportsClient(webTransport);
-  s.listAirports({}).then((planes) => console.log(planes.response));
+  s.listAirports({}).then((planes) => console.log(planes.response)); */
 
   const [departure, setDeparture] = useState('');
   const [destination, setDestination] = useState('');
@@ -75,11 +75,13 @@ export default function Home() {
               min="1"
             />
             <div>
-              <button type="submit" className="rounded-lg bg-blue-500 px-3 py-2 text-sm font-extrabold text-white hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700">
+              <button type="submit" className="rounded-lg bg-blue-500 px-3 py-2 text-sm font-extrabold
+              text-white hover:bg-blue-700 focus-visible:outline focus-visible:outline-2
+              focus-visible:outline-offset-2 focus-visible:outline-blue-700">
                 Search Flights
               </button>
             </div>
-               
+
           </form>
         </div>
       </main>

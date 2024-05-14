@@ -1,12 +1,10 @@
+import "@/styles/global.css";
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
+import { inter } from "@/styles/fonts";
 
-//Font subset
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'HorizonAir',
+  title: 'Simurgh Airlines',
   description: 'Flight tickets management system',
 }
 
@@ -17,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.className} antialiased`}>{children}</body>
     </html>
   )
 }
