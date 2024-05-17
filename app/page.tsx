@@ -4,7 +4,7 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { webTransport } from '@/clients/transports/web';
 import { exampleServerGRPC } from '@/components/example';
-import { AirportsClient } from '@/clients/gen/airports.client';
+import { AirportsClient } from '@/clients/gen/flightmngr/airports.client';
 
 
 export default function Home() {
