@@ -1,8 +1,8 @@
-version: '3.8'
 services:
   
   proxy:
     image: traefik:3.0
+    restart: unless-stopped
     ports:
       - 60001:50051
     volumes:
@@ -13,11 +13,23 @@ services:
       - --providers.docker.exposedbydefault=false
       # grpc entrypoint
       - --entrypoints.grpc.address=:50051
-  
+
+  rabbitmq:
+    image: rabbitmq:3
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
   flightmngr:
     image: ghcr.io/scalabilityissues/flight-manager:main
+    pull_policy: always
+    restart: unless-stopped
     environment:
       DATABASE_URL: postgres://postgres:pwd@flightmngr-db:5432
+      RABBITMQ_USERNAME: "guest"
+      RABBITMQ_PASSWORD: "guest"
+      RABBITMQ_HOST: "rabbitmq"
     ports:
       - 60051:50051
     labels:
@@ -30,6 +42,71 @@ services:
 
   flightmngr-db:
     image: postgres:16-alpine
+    restart: unless-stopped
     environment:
       POSTGRES_PASSWORD: pwd
 
+  salesvc:
+    image: ghcr.io/scalabilityissues/sale-service:main
+    pull_policy: always
+    restart: unless-stopped
+    environment:
+      TOKEN_SECRET: "secret"
+    ports:
+      - 60052:50051
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.salesvc.rule=PathPrefix(`/salesvc.`)
+      - traefik.http.routers.salesvc.middlewares=grpcweb
+      - traefik.http.services.salesvc.loadbalancer.server.port=50051
+      - traefik.http.services.salesvc.loadbalancer.server.scheme=h2c
+      - traefik.http.middlewares.grpcweb.grpcweb.allowOrigins=*
+
+  ticketsvc:
+    image: ghcr.io/scalabilityissues/ticket-service:master
+    pull_policy: always
+    restart: unless-stopped
+    environment:    
+        DATABASE_URL: "mongodb://mongo:mongo@ticketsvc-db:27017/"
+        RABBITMQ_USERNAME: "guest"
+        RABBITMQ_PASSWORD: "guest"
+        RABBITMQ_HOST: "rabbitmq"
+    ports:
+      - 60053:50051
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.ticketsvc.rule=PathPrefix(`/ticketsrvc.`)
+      - traefik.http.routers.ticketsvc.middlewares=grpcweb
+      - traefik.http.services.ticketsvc.loadbalancer.server.port=50051
+      - traefik.http.services.ticketsvc.loadbalancer.server.scheme=h2c
+      - traefik.http.middlewares.grpcweb.grpcweb.allowOrigins=*
+
+  ticketsvc-db:
+    image: mongo:7
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: mongo
+
+  validationsvc:
+    image: ghcr.io/scalabilityissues/validation-service:master
+    pull_policy: always
+    restart: unless-stopped
+    environment:
+      - SIGNING_KEY=/run/secrets/validation_key
+    secrets:
+      - validation_key
+    ports:
+      - 60054:50051
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.validationsvc.rule=PathPrefix(`/validationsvc.`)
+      - traefik.http.routers.validationsvc.middlewares=grpcweb
+      - traefik.http.services.validationsvc.loadbalancer.server.port=50051
+      - traefik.http.services.validationsvc.loadbalancer.server.scheme=h2c
+      - traefik.http.middlewares.grpcweb.grpcweb.allowOrigins=*
+  
+secrets:
+  validation_key:
+    file: sign.pem
+  
