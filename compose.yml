@@ -43,6 +43,8 @@ services:
   flightmngr-db:
     image: postgres:16-alpine
     restart: unless-stopped
+    volumes:
+      - flightmngr-pgdata:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: pwd
 
@@ -85,6 +87,8 @@ services:
   ticketsvc-db:
     image: mongo:7
     restart: unless-stopped
+    volumes:
+      - ticketsvc-mongo:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongo
       MONGO_INITDB_ROOT_PASSWORD: mongo
@@ -111,3 +115,6 @@ secrets:
   validation_key:
     file: sign.pem
   
+volumes:
+  flightmngr-pgdata:
+  ticketsvc-mongo:
