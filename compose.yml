@@ -52,6 +52,7 @@ services:
     restart: unless-stopped
     environment:
       TOKEN_SECRET: "secret"
+      FAKE_PRICE: "true"
     ports:
       - 60052:50051
     labels:
