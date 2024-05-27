@@ -1,10 +1,10 @@
-//Connection to Flight schedule manager service
+"use client"
 
 /*
 API pseudo structure
 - On GET show the form for inserting new planes
 - On form submit call gRPC method to insert the new plane
 */
-export default function Planes() {
+export default function PlanesAdmin() {
     return (<div></div>)
 }
