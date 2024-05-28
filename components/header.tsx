@@ -1,4 +1,4 @@
-'use client'
+
 import Link from "next/link";
 import Image from "next/image";
 
@@ -13,8 +13,6 @@ export default function Header() {
                     <Link href="/staff" className="text-white hover:bg-blue-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Staff</Link>
 
                     <Link href="/admin" className="text-white hover:bg-blue-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Admin</Link>
-
-                    <Link href="/" className="text-white hover:bg-blue-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Login</Link>
                 </div>
             </div>
         </nav>

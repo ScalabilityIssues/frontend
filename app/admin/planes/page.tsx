@@ -1,10 +1,37 @@
 "use client"
 
-/*
-API pseudo structure
-- On GET show the form for inserting new planes
-- On form submit call gRPC method to insert the new plane
-*/
+import { Plane } from "@/clients/gen/flightmngr/planes";
+import { PlanesClient } from "@/clients/gen/flightmngr/planes.client";
+import { webTransport } from "@/clients/transports/web";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+
+
 export default function PlanesAdmin() {
-    return (<div></div>)
+    const router = useRouter();
+    const clientPlanes = new PlanesClient(webTransport);
+    const [planes, setPlanes] = useState<Plane[]>([]);
+
+    useEffect(() => {
+        clientPlanes.listPlanes({ showDeleted: true }).then((result) => {
+            setPlanes(result.response.planes);
+        });
+    }, []);
+
+    return (
+        <div>
+            <h1>Plane list</h1>
+            <ul>
+                {planes.map((plane) => (
+                    <li>
+                        <h2>{plane.model}</h2>
+                        <p>Cabin capacity (number of person): {plane.cabinCapacity}</p>
+                        <p>Cabin capacity (in kg): {plane.cargoCapacityKg}</p>
+                        <p>Deleted: {plane.deleted}</p>
+                        <button onClick={() => { router.push(`/planes/${plane.id}`) }}>Edit</button>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    )
 }

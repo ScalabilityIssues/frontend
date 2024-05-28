@@ -7,6 +7,7 @@ import { webTransport } from "@/clients/transports/web";
 import { Offer, OfferClaims } from "@/clients/gen/salesvc/sale";
 import { PassengerDetails } from "@/clients/gen/ticketsrvc/tickets";
 import { Timestamp } from "@/clients/gen/google/protobuf/timestamp";
+import { useDebouncedCallback } from 'use-debounce';
 import { off } from "process";
 
 /*
@@ -34,14 +35,15 @@ export default function Flights() {
         birth_date: '',
         email: ''
     });
-    const isUserInfoComplete = passenger.ssn && passenger.name && passenger.surname && passenger.birth_date && passenger.email;
+    const isUserInfoComplete = passenger.ssn && passenger.name &&
+        passenger.surname && passenger.birth_date && passenger.email;
 
 
     const saleClient = new SaleClient(webTransport);
 
     // Redirect to the home page if the search params are not present
     useEffect(() => {
-        if (Object.values(searchParams).length === 0) {
+        if (!departure || !destination || !departureDate) {
             router.push('/');
         }
     }, [router]);
@@ -51,11 +53,11 @@ export default function Flights() {
         setStep(1);
     };
     const handleNext = () => {
-        if (selectedOffer) {
+        if (selectedOffer !== -1) {
             setStep(2);
         }
     };
-    const handlePurchase = async () => {
+    const handlePurchase = () => {
         if (selectedOffer !== -1) {
             const currOffer = offers[selectedOffer];
             const flight_id = currOffer.flight?.id || ''
@@ -84,7 +86,11 @@ export default function Flights() {
                 }
             });
         }
-    }
+    };
+
+    const updatePassenger = (field: string, value: string) => {
+        setPassenger({ ...passenger, [field]: value });
+    };
 
     useEffect(() => {
         saleClient.searchOffers({
@@ -102,50 +108,52 @@ export default function Flights() {
                 <>
                     <h1 className="text-2xl font-bold mb-4">Flight Results</h1>
                     {offers.length > 0 ? (
-                        <ul>
-                            {offers.map((offer, index) => (
-                                <li key={index}
-                                    className={`p-4 mb-4 border rounded cursor-pointer
+                        <>
+                            <ul>
+                                {offers.map((offer, index) => (
+                                    <li key={index}
+                                        className={`p-4 mb-4 border rounded cursor-pointer
                                     ${selectedOffer === index ? 'bg-blue-500 text-white' : 'bg-white text-black'}`}>
-                                    <h2>Flight {index}</h2>
-                                    <p>{offer.flight?.departureTime && offer.flight?.arrivalTime ?
-                                        `${Timestamp.toDate(offer.flight.departureTime).toString()} - ${Timestamp.toDate(offer.flight.arrivalTime).toString()}` : ''}
-                                    </p>
-                                    <p>{offer.price}</p>
-                                    <button onClick={() => setSelectedOffer(index)}>Select</button>
-                                </li>
-                            ))}
-                        </ul>
+                                        <h2>Flight {index}</h2>
+                                        <p>{offer.flight?.departureTime && offer.flight?.arrivalTime ?
+                                            `${Timestamp.toDate(offer.flight.departureTime).toString()} - ${Timestamp.toDate(offer.flight.arrivalTime).toString()}` : ''}
+                                        </p>
+                                        <p>{offer.price}</p>
+                                        <button onClick={() => setSelectedOffer(index)}>Select</button>
+                                    </li>
+                                ))}
+                            </ul>
+                            <button onClick={handleNext} disabled={selectedOffer === -1}>
+                                Next
+                            </button>
+                        </>
                     ) : (
                         <p>No flights found</p>
                     )}
-                    <button onClick={handleNext} disabled={selectedOffer === -1}>
-                        Next
-                    </button>
                 </>
             ) : (
-                <div>
+                <>
                     <h1>Enter User Information</h1>
                     <form onSubmit={handlePurchase}>
                         <div>
                             <label htmlFor="ssn">SSN</label>
-                            <input type="text" id="ssn" value={passenger.ssn} onChange={(e) => setPassenger({ ...passenger, ssn: e.target.value })} />
+                            <input type="text" id="ssn" value={passenger.ssn} onBlur={(e) => updatePassenger('ssn', e.target.value)} />
                         </div>
                         <div>
                             <label htmlFor="name">Name</label>
-                            <input type="text" id="name" value={passenger.name} onChange={(e) => setPassenger({ ...passenger, name: e.target.value })} />
+                            <input type="text" id="name" value={passenger.name} onBlur={(e) => updatePassenger('name', e.target.value)} />
                         </div>
                         <div>
                             <label htmlFor="surname">Surname</label>
-                            <input type="text" id="surname" value={passenger.surname} onChange={(e) => setPassenger({ ...passenger, surname: e.target.value })} />
+                            <input type="text" id="surname" value={passenger.surname} onBlur={(e) => updatePassenger('surname', e.target.value)} />
                         </div>
                         <div>
                             <label htmlFor="birth_date">Birth Date</label>
-                            <input type="date" id="birth_date" value={passenger.birth_date} onChange={(e) => setPassenger({ ...passenger, birth_date: e.target.value })} />
+                            <input type="date" id="birth_date" value={passenger.birth_date} onBlur={(e) => updatePassenger('birth_date', e.target.value)} />
                         </div>
                         <div>
                             <label htmlFor="email">Email</label>
-                            <input type="email" id="email" value={passenger.email} onChange={(e) => setPassenger({ ...passenger, email: e.target.value })} />
+                            <input type="email" id="email" value={passenger.email} onBlur={(e) => updatePassenger('email', e.target.value)} />
                         </div>
 
                         <div>
@@ -153,7 +161,7 @@ export default function Flights() {
                             <button type="submit" disabled={!isUserInfoComplete}>Purchase</button>
                         </div>
                     </form>
-                </div>
+                </>
             )}
         </div>
     );

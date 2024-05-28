@@ -35,7 +35,7 @@ export default function Home() {
     });
   }, []);
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     const params = new URLSearchParams();
     params.set('departure', departure);
     params.set('destination', destination);
@@ -54,7 +54,7 @@ export default function Home() {
               <select value={departure} id="departure" onChange={(e) => setDeparture(e.target.value)}>
                 <option value="">Select Departure</option>
                 {airports.map((airport) => (
-                  <option key={airport.id} value={airport.iata}>
+                  <option value={airport.id}>
                     {airport.iata + ' - ' + airport.name + ' - ' + airport.country}
                   </option>
                 ))}
@@ -66,7 +66,7 @@ export default function Home() {
               <select value={destination} id="destination" onChange={(e) => setDestination(e.target.value)}>
                 <option value="">Select Destination</option>
                 {airports.map((airport) => (
-                  <option key={airport.id} value={airport.iata}>
+                  <option value={airport.id}>
                     {airport.iata + ' - ' + airport.name + ' - ' + airport.country}
                   </option>
                 ))}
