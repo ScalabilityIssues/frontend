@@ -3,6 +3,7 @@
 import { Plane } from "@/clients/gen/flightmngr/planes";
 import { PlanesClient } from "@/clients/gen/flightmngr/planes.client";
 import { webTransport } from "@/clients/transports/web";
+import { appendFileSync } from "fs";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
@@ -24,13 +25,11 @@ export default function AddPlanesAdmin() {
     };
 
     const handlePlaneAdd = () => {
-        const newPlane: Plane = {
-            id: '',
-            deleted: false,
+        const newPlane = {
             model: plane.model,
             cabinCapacity: plane.cabinCapacity,
             cargoCapacityKg: plane.cargoCapacityKg
-        };
+        } as Plane;
         clientPlanes.createPlane({ plane: newPlane }).then(() => {
             router.push('/admin/planes');
         });
