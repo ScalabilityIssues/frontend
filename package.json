@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "gen-clients": "protoc --experimental_allow_proto3_optional --ts_out clients/gen/ --proto_path=proto/ proto/flightmngr/*.proto proto/salesvc/*.proto proto/validationsvc/*.proto proto/ticketsrvc/*.proto",
-    "backend": "openssl genpkey -algorithm ed25519 -out sign.pem && docker compose up -d --pull always"
+    "backend": "docker compose up -d"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.10.8",
