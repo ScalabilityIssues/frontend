@@ -107,8 +107,16 @@ services:
       - traefik.http.routers.validationsvc.middlewares=grpcweb
       - traefik.http.services.validationsvc.loadbalancer.server.port=50051
       - traefik.http.services.validationsvc.loadbalancer.server.scheme=h2c
-      - traefik.http.middlewares.grpcweb.grpcweb.allowOrigins=*
   
+  frontend:
+    build: .
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.frontend.rule=PathPrefix(`/`)
+      - traefik.http.services.frontend.loadbalancer.server.port=80
+
+
 volumes:
   flightmngr-pgdata:
   ticketsvc-mongo:
