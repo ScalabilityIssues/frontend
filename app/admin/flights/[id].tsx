@@ -182,7 +182,7 @@ export default function FlightsIdAdmin() {
                                 </li>
                             ))}
                         </ul>
-                        <button onClick={toggleEdit}>Edit</button>
+                        <button type="button" onClick={toggleEdit}>Edit</button>
                     </>
                 )
             }

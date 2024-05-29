@@ -1,4 +1,4 @@
-
+"use client"
 
 import { useRouter } from "next/navigation";
 /*
@@ -15,11 +15,11 @@ export default function Admin() {
     <div>
       <h1>Admin Dashboard</h1>
       <h2>Monitoring</h2>
-      <button onClick={() => router.push("/admin/flights/")}>Check all the planes</button>
-      <button onClick={() => router.push("/admin/flights/")}>Check all the airports</button>
+      <button type="button" onClick={() => router.push("/admin/flights/")}>Check all the planes</button>
+      <button type="button" onClick={() => router.push("/admin/flights/")}>Check all the airports</button>
       <h2>Insertion</h2>
-      <button onClick={() => router.push("/admin/flights/new")}>Add new flight</button>
-      <button onClick={() => router.push("/admin/planes/new")}>Add new plane</button>
+      <button type="button" onClick={() => router.push("/admin/flights/new")}>Add new flight</button>
+      <button type="button" onClick={() => router.push("/admin/planes/new")}>Add new plane</button>
     </div>
   );
-};
+}

@@ -43,7 +43,7 @@ export default function PlanesIdAdmin() {
                     <p>Cabin capacity (number of person): {plane?.cabinCapacity}</p>
                     <p>Cabin capacity (in kg): {plane?.cargoCapacityKg}</p>
                     <p>Deleted: {plane?.deleted}</p>
-                    {!plane?.deleted && <button onClick={() => { handleDelete }}>Delete</button>})
+                    {!plane?.deleted && <button type="button" onClick={() => { handleDelete }}>Delete</button>})
                 </>
             }
         </div >

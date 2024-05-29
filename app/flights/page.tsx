@@ -7,9 +7,6 @@ import { webTransport } from "@/clients/transports/web";
 import { Offer, OfferClaims } from "@/clients/gen/salesvc/sale";
 import { PassengerDetails } from "@/clients/gen/ticketsrvc/tickets";
 import { Timestamp } from "@/clients/gen/google/protobuf/timestamp";
-import { useDebouncedCallback } from 'use-debounce';
-import { off } from "process";
-
 /*
 API pseudo structure
 - On GET with the params, it will return the list of flights calling the gRPC method (if no params return all the not sold flights)
@@ -119,11 +116,11 @@ export default function Flights() {
                                             `${Timestamp.toDate(offer.flight.departureTime).toString()} - ${Timestamp.toDate(offer.flight.arrivalTime).toString()}` : ''}
                                         </p>
                                         <p>{offer.price}</p>
-                                        <button onClick={() => setSelectedOffer(index)}>Select</button>
+                                        <button type="button" onClick={() => setSelectedOffer(index)}>Select</button>
                                     </li>
                                 ))}
                             </ul>
-                            <button onClick={handleNext} disabled={selectedOffer === -1}>
+                            <button type="button" onClick={handleNext} disabled={selectedOffer === -1}>
                                 Next
                             </button>
                         </>

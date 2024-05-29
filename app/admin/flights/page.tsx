@@ -62,8 +62,8 @@ export default function FlightsAdmin() {
                             <td>{flight.arrivalTime ? (Timestamp.toDate(flight.arrivalTime).toTimeString()) : "No info available"}</td>
                             <td>{flight.statusEvents[flight.statusEvents.length - 1].event.oneofKind}</td>
                             <td>
-                                <button onClick={() => router.push(`/admin/planes/${flight.planeId}`)}>More plane info</button>
-                                <button onClick={() => router.push(`/admin/flights/${flight.id}`)}>More flight info</button>
+                                <button type="button" onClick={() => router.push(`/admin/planes/${flight.planeId}`)}>More plane info</button>
+                                <button type="button" onClick={() => router.push(`/admin/flights/${flight.id}`)}>More flight info</button>
                             </td>
                         </tr>
                     ))}

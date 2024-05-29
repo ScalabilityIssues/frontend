@@ -43,17 +43,17 @@ export default function AddPlanesAdmin() {
             <form>
                 <label>
                     Model:
-                    <input type="text" value={plane.model} onBlur={(e) => updatePlane('model', e.target.value)} />
+                    <input type="text" value={plane.model} onChange={(e) => updatePlane('model', e.target.value)} />
                 </label>
                 <label>
                     Cabin capacity:
-                    <input type="number" value={plane.cabinCapacity} onBlur={(e) => updatePlane('cabinCapacity', parseInt(e.target.value))} />
+                    <input type="number" value={plane.cabinCapacity} onChange={(e) => updatePlane('cabinCapacity', parseInt(e.target.value))} />
                 </label>
                 <label>
                     Cargo capacity (in kg):
-                    <input type="number" value={plane.cargoCapacityKg} onBlur={(e) => updatePlane('cargoCapacityKg', parseInt(e.target.value))} />
+                    <input type="number" value={plane.cargoCapacityKg} onChange={(e) => updatePlane('cargoCapacityKg', parseInt(e.target.value))} />
                 </label>
-                <button onClick={handlePlaneAdd}>Add</button>
+                <button type="button" onClick={handlePlaneAdd}>Add</button>
             </form>
         </div>
     )

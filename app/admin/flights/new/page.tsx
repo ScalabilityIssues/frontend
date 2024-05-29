@@ -98,7 +98,7 @@ export default function AddFlightAdmin() {
                     Arrival time:
                     <input type="datetime-local" value={flight.arrivalTime} onChange={(e) => setFlight({ ...flight, arrivalTime: e.target.value })} />
                 </label>
-                <button onClick={handleFlightAdd}>Add</button>
+                <button type="button" onClick={handleFlightAdd}>Add</button>
             </form>
         </div>
     )

@@ -22,13 +22,13 @@ export default function PlanesAdmin() {
         <div>
             <h1>Plane list</h1>
             <ul>
-                {planes.map((plane) => (
-                    <li>
+                {planes.map((plane, index) => (
+                    <li key={index}>
                         <h2>{plane.model}</h2>
                         <p>Cabin capacity (number of person): {plane.cabinCapacity}</p>
                         <p>Cabin capacity (in kg): {plane.cargoCapacityKg}</p>
                         <p>Deleted: {plane.deleted}</p>
-                        <button onClick={() => { router.push(`/planes/${plane.id}`) }}>Edit</button>
+                        <button type="button" onClick={() => { router.push(`/planes/${plane.id}`) }}>Edit</button>
                     </li>
                 ))}
             </ul>

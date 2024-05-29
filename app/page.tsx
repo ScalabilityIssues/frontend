@@ -53,8 +53,8 @@ export default function Home() {
               <label htmlFor="departure">Departure:</label>
               <select value={departure} id="departure" onChange={(e) => setDeparture(e.target.value)}>
                 <option value="">Select Departure</option>
-                {airports.map((airport) => (
-                  <option value={airport.id}>
+                {airports.map((airport, index) => (
+                  <option key={index} value={airport.id}>
                     {airport.iata + ' - ' + airport.name + ' - ' + airport.country}
                   </option>
                 ))}
@@ -65,8 +65,8 @@ export default function Home() {
               <label htmlFor="destination">Destination:</label>
               <select value={destination} id="destination" onChange={(e) => setDestination(e.target.value)}>
                 <option value="">Select Destination</option>
-                {airports.map((airport) => (
-                  <option value={airport.id}>
+                {airports.map((airport, index) => (
+                  <option key={index} value={airport.id}>
                     {airport.iata + ' - ' + airport.name + ' - ' + airport.country}
                   </option>
                 ))}
