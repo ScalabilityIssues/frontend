@@ -5,6 +5,8 @@ services:
     restart: unless-stopped
     ports:
       - 60001:50051
+      - 8080:8080
+      - 80:80
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command:
@@ -13,6 +15,9 @@ services:
       - --providers.docker.exposedbydefault=false
       # grpc entrypoint
       - --entrypoints.grpc.address=:50051
+    labels:
+      - traefik.enable=true
+      - traefik.http.middlewares.grpcweb.grpcweb.allowOrigins=*
 
   rabbitmq:
     image: rabbitmq:3
@@ -38,7 +43,6 @@ services:
       - traefik.http.routers.flightmngr.middlewares=grpcweb
       - traefik.http.services.flightmngr.loadbalancer.server.port=50051
       - traefik.http.services.flightmngr.loadbalancer.server.scheme=h2c
-      - traefik.http.middlewares.grpcweb.grpcweb.allowOrigins=*
 
   flightmngr-db:
     image: postgres:16-alpine
@@ -63,7 +67,6 @@ services:
       - traefik.http.routers.salesvc.middlewares=grpcweb
       - traefik.http.services.salesvc.loadbalancer.server.port=50051
       - traefik.http.services.salesvc.loadbalancer.server.scheme=h2c
-      - traefik.http.middlewares.grpcweb.grpcweb.allowOrigins=*
 
   ticketsvc:
     image: ghcr.io/scalabilityissues/ticket-service:master
@@ -82,7 +85,6 @@ services:
       - traefik.http.routers.ticketsvc.middlewares=grpcweb
       - traefik.http.services.ticketsvc.loadbalancer.server.port=50051
       - traefik.http.services.ticketsvc.loadbalancer.server.scheme=h2c
-      - traefik.http.middlewares.grpcweb.grpcweb.allowOrigins=*
 
   ticketsvc-db:
     image: mongo:7
