@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "gen-clients": "protoc --experimental_allow_proto3_optional --ts_out clients/gen/ --proto_path=proto/ proto/flightmngr/*.proto proto/salesvc/*.proto proto/validationsvc/*.proto proto/ticketsrvc/*.proto",
+    "gen-clients": "protoc --experimental_allow_proto3_optional --ts_out clients/gen/ --proto_path=proto/ proto/flightmngr/*.proto proto/salesvc/*.proto proto/validationsvc/*.proto proto/ticketsrvc/*.proto proto/commons/*.proto",
     "backend": "docker compose up -d"
   },
   "dependencies": {
