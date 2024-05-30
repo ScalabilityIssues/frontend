@@ -1,7 +1,7 @@
 "use client"
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { use, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { SaleClient } from "@/clients/gen/salesvc/sale.client";
 import { webTransport } from "@/clients/transports/web";
 import { Offer, OfferClaims } from "@/clients/gen/salesvc/sale";
@@ -14,12 +14,17 @@ API pseudo structure
 - Pressing a button is possible to buy the flight calling the gRPC method (similar to POST) directly from the page
 */
 
-export default function Flights() {
+export default function Flights({ searchParams }: {
+    searchParams: {
+        departure: string,
+        destination: string,
+        departureDate: string
+    }
+}) {
     const router = useRouter();
-    const searchParams = useSearchParams();
-    const departure = searchParams.get('departure') || '';
-    const destination = searchParams.get('destination') || '';
-    const departureDate = searchParams.get('departureDate') || '';
+    const departure = searchParams.departure || '';
+    const destination = searchParams.destination || '';
+    const departureDate = searchParams.departureDate || '';
 
     const [offers, setOffers] = useState<Offer[]>([]);
     const [selectedOffer, setSelectedOffer] = useState(-1);
@@ -38,13 +43,16 @@ export default function Flights() {
 
     const saleClient = new SaleClient(webTransport);
 
-    // Redirect to the home page if the search params are not present
     useEffect(() => {
-        if (!departure || !destination || !departureDate) {
-            router.push('/');
+        if (departure && destination && departureDate) {
+            saleClient.searchOffers({
+                departureAirport: departure, arrivalAirport: destination,
+                departureDate: Timestamp.fromDate(new Date(departureDate))
+            }).then((result) => {
+                setOffers(result.response.offers);
+            });
         }
-    }, [router]);
-
+    }, []);
 
     const handlePrevious = () => {
         setStep(1);
@@ -89,16 +97,6 @@ export default function Flights() {
         setPassenger({ ...passenger, [field]: value });
     };
 
-    useEffect(() => {
-        saleClient.searchOffers({
-            departureAirport: departure, arrivalAirport: destination,
-            departureDate: Timestamp.fromDate(new Date(departureDate))
-        }).then((result) => {
-            setOffers(result.response.offers);
-        });
-    }, []);
-
-
     return (
         <div className="container mx-auto p-4">
             {step === 1 ? (
@@ -115,7 +113,7 @@ export default function Flights() {
                                         <p>{offer.flight?.departureTime && offer.flight?.arrivalTime ?
                                             `${Timestamp.toDate(offer.flight.departureTime).toString()} - ${Timestamp.toDate(offer.flight.arrivalTime).toString()}` : ''}
                                         </p>
-                                        <p>{offer.price}</p>
+                                        <p>{offer.price?.units}{offer.price?.currencyCode}</p>
                                         <button type="button" onClick={() => setSelectedOffer(index)}>Select</button>
                                     </li>
                                 ))}

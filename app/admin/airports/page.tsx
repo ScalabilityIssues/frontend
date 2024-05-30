@@ -24,7 +24,7 @@ export default function AirportsAdmin() {
                     <p>ICAO code: {airport.icao}</p>
                     <p>City: {airport.city}</p>
                     <p>Country: {airport.country}</p>
-                    <p>Deleted: {airport.deleted}</p>
+                    <p>Deleted: {airport.deleted ? "Yes" : "No"}</p>
                 </li>
             ))}
         </ul>

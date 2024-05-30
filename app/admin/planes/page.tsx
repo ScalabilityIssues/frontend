@@ -28,7 +28,7 @@ export default function PlanesAdmin() {
                         <p>Cabin capacity (number of person): {plane.cabinCapacity}</p>
                         <p>Cabin capacity (in kg): {plane.cargoCapacityKg}</p>
                         <p>Deleted: {plane.deleted}</p>
-                        <button type="button" onClick={() => { router.push(`/planes/${plane.id}`) }}>Edit</button>
+                        <button type="button" onClick={() => { router.push(`/admin/planes/${plane.id}`) }}>Edit</button>
                     </li>
                 ))}
             </ul>

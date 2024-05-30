@@ -4,6 +4,7 @@ const nextConfig = {
         ignoreBuildErrors: true,
     },
     output: "standalone",
+
 }
 
 module.exports = nextConfig

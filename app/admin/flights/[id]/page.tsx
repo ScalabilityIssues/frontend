@@ -7,15 +7,13 @@ import { FlightsClient } from "@/clients/gen/flightmngr/flights.client";
 import { Timestamp } from "@/clients/gen/google/protobuf/timestamp";
 import { webTransport } from "@/clients/transports/web";
 import FlightStatusEventComponent from "@/components/flight-status";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function FlightsIdAdmin() {
+export default function FlightsIdAdmin({ params }: { params: { id: string } }) {
     const router = useRouter();
     const clientFlights = new FlightsClient(webTransport);
     const clientAirports = new AirportsClient(webTransport);
-    const searchParams = useSearchParams();
-    const flightId = searchParams.get('id') || '';
     const [flight, setFlight] = useState<Flight>();
     const [origin, setOrigin] = useState<Airport>();
     const [destination, sepestination] = useState<Airport>();
@@ -24,13 +22,10 @@ export default function FlightsIdAdmin() {
     const [statusEvent, setStatusEvent] = useState<FlightStatusEvent>();
 
     useEffect(() => {
-        if (flightId === '') {
-            router.push('/admin/flights');
-        } else {
-            clientFlights.getFlight({ id: flightId }).then((result) => {
-                setFlight(result.response);
-            });
-        }
+
+        clientFlights.getFlight({ id: params.id }).then((result) => {
+            setFlight(result.response);
+        });
     }, []);
 
     useEffect(() => {
@@ -102,7 +97,7 @@ export default function FlightsIdAdmin() {
                 break;
         }
 
-        clientFlights.updateFlight({ id: flightId, statusEvent });
+        clientFlights.updateFlight({ id: params.id, statusEvent });
         setIsEditing(false);
     }
 
@@ -178,7 +173,7 @@ export default function FlightsIdAdmin() {
                         <ul>
                             {flight.statusEvents.map((event, index) => (
                                 <li key={index}>
-                                    <FlightStatusEventComponent {...event} />
+                                    <FlightStatusEventComponent props={event} />
                                 </li>
                             ))}
                         </ul>

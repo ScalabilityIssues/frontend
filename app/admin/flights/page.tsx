@@ -39,6 +39,7 @@ export default function FlightsAdmin() {
             });
         }
     }, [flights]);
+
     return (
         <div>
             <h2>Flight list</h2>

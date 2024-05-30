@@ -1,7 +1,7 @@
-export default function Footer(){
+export default function Footer() {
     return (
-        <footer>
-            footer
+        <footer style={{ position: "absolute", bottom: 0, width: "100%" }} className="mx-6">
+            © ScalabilityIssues team. Ca' Foscari Univeristy of Venice
         </footer>
     )
 }

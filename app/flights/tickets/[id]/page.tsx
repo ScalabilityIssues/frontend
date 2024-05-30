@@ -9,18 +9,14 @@ import { Ticket } from '@/clients/gen/ticketsrvc/tickets'
 import { TicketsClient } from '@/clients/gen/ticketsrvc/tickets.client'
 import { webTransport } from '@/clients/transports/web'
 import FlightStatusEventComponent from '@/components/flight-status'
-import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
 
-export default function TicketIdDetails() {
-    const router = useRouter()
+export default function TicketIdDetails({ params }: { params: { id: string } }) {
     const clientTicket = new TicketsClient(webTransport)
     const clientFlights = new FlightsClient(webTransport)
     const clientAirports = new AirportsClient(webTransport)
-    const searchParams = useSearchParams();
-    const ticketId = searchParams.get('id') || '';
 
     const [ticket, setTicket] = useState<Ticket>()
     const [qrCode, setQrCode] = useState<Uint8Array>()
@@ -30,15 +26,15 @@ export default function TicketIdDetails() {
     const [lastStatus, setLastStatus] = useState<FlightStatusEvent>()
 
     useEffect(() => {
-        if (ticketId === '') {
-            router.push('/')
-        } else {
-            clientTicket.getTicketWithQrCode({ id: ticketId, allowNonvalid: false }).then((result) => {
-                setTicket(result.response.ticket)
-                setQrCode(result.response.qrCode)
-            })
-        }
-    }, [ticketId])
+
+        clientTicket.getTicketWithQrCode({
+            query: { oneofKind: "id", id: params.id },
+            allowNonvalid: false
+        }).then((result) => {
+            setTicket(result.response.ticket)
+            setQrCode(result.response.qrCode)
+        })
+    }, [])
 
     useEffect(() => {
         if (ticket) {
@@ -114,7 +110,7 @@ export default function TicketIdDetails() {
                     <h2>Flight status</h2>
                     <p>Last event:
                         {lastStatus === undefined ?
-                            (<p>No status available</p>) : (<FlightStatusEventComponent {...lastStatus} />)}
+                            (<p>No status available</p>) : (<FlightStatusEventComponent props={lastStatus} />)}
                     </p>
                     <p>Expected departure: {flight?.expectedDepartureTime ?
                         (Timestamp.toDate(flight?.expectedDepartureTime).toLocaleString()) : ("No info available")}</p>

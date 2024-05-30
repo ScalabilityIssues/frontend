@@ -2,7 +2,7 @@ import { FlightStatusEvent } from '@/clients/gen/flightmngr/flights';
 import { Timestamp } from '@/clients/gen/google/protobuf/timestamp';
 import React from 'react';
 
-export default function FlightStatusEventComponent(props: FlightStatusEvent) {
+export default function FlightStatusEventComponent({ props }: { props: FlightStatusEvent }) {
     const renderEvent = () => {
         switch (props.event.oneofKind) {
             case 'flightCancelled':

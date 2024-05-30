@@ -9,28 +9,23 @@ import { PlanesClient } from "@/clients/gen/flightmngr/planes.client";
 import { Timestamp } from "@/clients/gen/google/protobuf/timestamp";
 import { webTransport } from "@/clients/transports/web";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 
 
-export default function PlanesIdAdmin() {
+export default function PlanesIdAdmin({ params }: { params: { id: string } }) {
     const router = useRouter();
     const clientPlanes = new PlanesClient(webTransport);
-    const searchParams = useSearchParams();
-    const planeId = searchParams.get('id') || '';
     const [plane, setPlane] = useState<Plane>();
 
     useEffect(() => {
-        if (planeId === '') {
-            router.push('/admin/planes');
-        } else {
-            clientPlanes.getPlane({ id: planeId }).then((result) => {
-                setPlane(result.response);
-            });
-        }
+
+        clientPlanes.getPlane({ id: params.id }).then((result) => {
+            setPlane(result.response);
+        });
     }, []);
 
     const handleDelete = () => {
-        clientPlanes.deletePlane({ id: planeId });
+        clientPlanes.deletePlane({ id: params.id });
         router.push('/admin/planes');
     }
 
@@ -38,12 +33,12 @@ export default function PlanesIdAdmin() {
         <div>
             {plane === undefined ? (<h1>Plane not found</h1>) :
                 <>
-                    (<h1>Plane id: {plane?.id}</h1>
+                    <h1>Plane id: {plane?.id}</h1>
                     <p>{plane?.model}</p>
                     <p>Cabin capacity (number of person): {plane?.cabinCapacity}</p>
                     <p>Cabin capacity (in kg): {plane?.cargoCapacityKg}</p>
-                    <p>Deleted: {plane?.deleted}</p>
-                    {!plane?.deleted && <button type="button" onClick={() => { handleDelete }}>Delete</button>})
+                    <p>Deleted: {plane?.deleted ? "Yes" : "No"}</p>
+                    {!plane?.deleted && <button type="button" onClick={() => { handleDelete }}>Delete</button>}
                 </>
             }
         </div >
