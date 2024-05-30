@@ -15,6 +15,7 @@ services:
       - --providers.docker.exposedbydefault=false
       # grpc entrypoint
       - --entrypoints.grpc.address=:50051
+      - --entrypoints.web.address=:80
     labels:
       - traefik.enable=true
       - traefik.http.middlewares.grpcweb.grpcweb.allowOrigins=*
