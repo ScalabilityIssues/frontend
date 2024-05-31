@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { SaleClient } from "@/clients/gen/salesvc/sale.client";
 import { webTransport } from "@/clients/transports/web";
 import { Offer, OfferClaims } from "@/clients/gen/salesvc/sale";
@@ -62,7 +62,10 @@ export default function Flights({ searchParams }: {
             setStep(2);
         }
     };
-    const handlePurchase = () => {
+
+    const handlePurchase = (event: FormEvent) => {
+        event.preventDefault();
+
         if (selectedOffer !== -1) {
             const currOffer = offers[selectedOffer];
             const flight_id = currOffer.flight?.id || ''
@@ -132,23 +135,23 @@ export default function Flights({ searchParams }: {
                     <form onSubmit={handlePurchase}>
                         <div>
                             <label htmlFor="ssn">SSN</label>
-                            <input type="text" id="ssn" value={passenger.ssn} onBlur={(e) => updatePassenger('ssn', e.target.value)} />
+                            <input type="text" id="ssn" value={passenger.ssn} onChange={(e) => updatePassenger('ssn', e.target.value)} />
                         </div>
                         <div>
                             <label htmlFor="name">Name</label>
-                            <input type="text" id="name" value={passenger.name} onBlur={(e) => updatePassenger('name', e.target.value)} />
+                            <input type="text" id="name" value={passenger.name} onChange={(e) => updatePassenger('name', e.target.value)} />
                         </div>
                         <div>
                             <label htmlFor="surname">Surname</label>
-                            <input type="text" id="surname" value={passenger.surname} onBlur={(e) => updatePassenger('surname', e.target.value)} />
+                            <input type="text" id="surname" value={passenger.surname} onChange={(e) => updatePassenger('surname', e.target.value)} />
                         </div>
                         <div>
                             <label htmlFor="birth_date">Birth Date</label>
-                            <input type="date" id="birth_date" value={passenger.birth_date} onBlur={(e) => updatePassenger('birth_date', e.target.value)} />
+                            <input type="date" id="birth_date" value={passenger.birth_date} onChange={(e) => updatePassenger('birth_date', e.target.value)} />
                         </div>
                         <div>
                             <label htmlFor="email">Email</label>
-                            <input type="email" id="email" value={passenger.email} onBlur={(e) => updatePassenger('email', e.target.value)} />
+                            <input type="email" id="email" value={passenger.email} onChange={(e) => updatePassenger('email', e.target.value)} />
                         </div>
 
                         <div>
