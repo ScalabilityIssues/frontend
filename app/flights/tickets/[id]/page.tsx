@@ -9,6 +9,7 @@ import { Ticket } from '@/clients/gen/ticketsrvc/tickets'
 import { TicketsClient } from '@/clients/gen/ticketsrvc/tickets.client'
 import { webTransport } from '@/clients/transports/web'
 import FlightStatusEventComponent from '@/components/flight-status'
+import QrCode from '@/components/qr-code'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
@@ -19,7 +20,7 @@ export default function TicketIdDetails({ params }: { params: { id: string } }) 
     const clientAirports = new AirportsClient(webTransport)
 
     const [ticket, setTicket] = useState<Ticket>()
-    const [qrCodeSrc, setQrCodeSrc] = useState<string>()
+    const [qrCode, setQrCode] = useState<Uint8Array>()
     const [flight, setFlight] = useState<Flight>()
     const [origin, setOrigin] = useState<Airport>()
     const [destination, setDestination] = useState<Airport>()
@@ -32,9 +33,7 @@ export default function TicketIdDetails({ params }: { params: { id: string } }) 
             allowNonvalid: false
         }).then((result) => {
             setTicket(result.response.ticket)
-            const src = URL.createObjectURL(new Blob([result.response.qrCode], { type: 'image/png' }))
-            setQrCodeSrc(src)
-            return () => URL.revokeObjectURL(src) // clean up
+            setQrCode(result.response.qrCode)
         })
     }, [])
 
@@ -87,7 +86,7 @@ export default function TicketIdDetails({ params }: { params: { id: string } }) 
                     <p>Reservation datetime: {ticket.reservationDatetime ? (Timestamp.toDate(ticket.reservationDatetime).toLocaleString()) : ("No info available")}</p>
 
                     <h2>QR Code</h2>
-                    <img src={qrCodeSrc} alt="QR Code" className='qrCode w-96' />
+                    <QrCode data={qrCode} className='w-96' alt="Ticket QR Code" />
 
                     <h2>Passenger Details</h2>
                     <p>SSN: {ticket.passenger?.ssn}</p>
