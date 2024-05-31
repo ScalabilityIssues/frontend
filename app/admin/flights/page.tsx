@@ -33,7 +33,7 @@ export default function FlightsAdmin() {
                 result.response.airports.map((airport) => [airport.id, airport])
             ));
         });
-    });
+    }, []);
 
     return (
         <div>
