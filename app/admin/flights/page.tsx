@@ -28,17 +28,12 @@ export default function FlightsAdmin() {
     }, []);
 
     useEffect(() => {
-        if (flights.length !== 0) {
-            const uniqueAirportIds = flights.map((flight) => [flight.originId, flight.destinationId]).flat();
-            uniqueAirportIds.forEach((id) => {
-                if (!airportDict[id]) {
-                    clientAirports.getAirport({ id: id }).then((result) => {
-                        setAirportDict((prev) => ({ ...prev, [id]: result.response }));
-                    });
-                }
-            });
-        }
-    }, [flights]);
+        clientAirports.listAirports({ showDeleted: true }).then((result) => {
+            setAirportDict(Object.fromEntries(
+                result.response.airports.map((airport) => [airport.id, airport])
+            ));
+        });
+    });
 
     return (
         <div>
@@ -50,18 +45,16 @@ export default function FlightsAdmin() {
                         <th>Destination</th>
                         <th>Departure time</th>
                         <th>Arrival time</th>
-                        <th>Last status</th>
                         <th>Additional action</th>
                     </tr>
                 </thead>
                 <tbody>
                     {flights.map((flight, index) => (
                         <tr key={index}>
-                            <td>{airportDict[flight.id]?.name} - {airportDict[flight.id].iata}</td>
-                            <td>{airportDict[flight.id]?.name} - {airportDict[flight.id].iata}</td>
+                            <td>{airportDict[flight.id]?.name} - {airportDict[flight.id]?.iata}</td>
+                            <td>{airportDict[flight.id]?.name} - {airportDict[flight.id]?.iata}</td>
                             <td>{flight.departureTime ? (Timestamp.toDate(flight.departureTime).toTimeString()) : "No info available"}</td>
                             <td>{flight.arrivalTime ? (Timestamp.toDate(flight.arrivalTime).toTimeString()) : "No info available"}</td>
-                            <td>{flight.statusEvents[flight.statusEvents.length - 1].event.oneofKind}</td>
                             <td>
                                 <button type="button" onClick={() => router.push(`/admin/planes/${flight.planeId}`)}>More plane info</button>
                                 <button type="button" onClick={() => router.push(`/admin/flights/${flight.id}`)}>More flight info</button>
