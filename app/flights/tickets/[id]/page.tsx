@@ -86,7 +86,7 @@ export default function TicketIdDetails({ params }: { params: { id: string } }) 
                     <p>Reservation datetime: {ticket.reservationDatetime ? (Timestamp.toDate(ticket.reservationDatetime).toLocaleString()) : ("No info available")}</p>
 
                     <h2>QR Code</h2>
-                    <QrCode data={qrCode} className='w-96' alt="Ticket QR Code" />
+                    <QrCode data={qrCode} className='w-1/3' alt="Ticket QR Code" />
 
                     <h2>Passenger Details</h2>
                     <p>SSN: {ticket.passenger?.ssn}</p>

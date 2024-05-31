@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
 
-type Props = { data?: Uint8Array, className?: string, alt: string }
+interface IQrCodeProps { data?: Uint8Array, className?: string, alt: string }
 
-export default function QrCode({ data, className, alt }: Props) {
+export default function QrCode({ data, className, alt }: IQrCodeProps) {
     const [src, setSrc] = useState<string>();
 
     useEffect(() => {
@@ -16,6 +16,6 @@ export default function QrCode({ data, className, alt }: Props) {
 
     return (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={src} className={`qrCode ${className}`} alt={alt} />
+        <img src={src} className={`qrcode ${className}`} alt={alt} />
     );
 }
