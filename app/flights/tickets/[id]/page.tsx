@@ -19,7 +19,7 @@ export default function TicketIdDetails({ params }: { params: { id: string } }) 
     const clientAirports = new AirportsClient(webTransport)
 
     const [ticket, setTicket] = useState<Ticket>()
-    const [qrCode, setQrCode] = useState<Uint8Array>()
+    const [qrCodeSrc, setQrCodeSrc] = useState<string>()
     const [flight, setFlight] = useState<Flight>()
     const [origin, setOrigin] = useState<Airport>()
     const [destination, setDestination] = useState<Airport>()
@@ -32,7 +32,9 @@ export default function TicketIdDetails({ params }: { params: { id: string } }) 
             allowNonvalid: false
         }).then((result) => {
             setTicket(result.response.ticket)
-            setQrCode(result.response.qrCode)
+            const src = URL.createObjectURL(new Blob([result.response.qrCode], { type: 'image/png' }))
+            setQrCodeSrc(src)
+            return () => URL.revokeObjectURL(src) // clean up
         })
     }, [])
 
@@ -85,7 +87,7 @@ export default function TicketIdDetails({ params }: { params: { id: string } }) 
                     <p>Reservation datetime: {ticket.reservationDatetime ? (Timestamp.toDate(ticket.reservationDatetime).toLocaleString()) : ("No info available")}</p>
 
                     <h2>QR Code</h2>
-                    <img src={`data:image/png;base64,${qrCode}`} alt="QR Code" className='qrCode' />
+                    <img src={qrCodeSrc} alt="QR Code" className='qrCode w-96' />
 
                     <h2>Passenger Details</h2>
                     <p>SSN: {ticket.passenger?.ssn}</p>
