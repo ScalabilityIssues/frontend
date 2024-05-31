@@ -58,7 +58,7 @@ export default function TicketIdDetails({ params }: { params: { id: string } }) 
     }, [flight])
 
     useEffect(() => {
-        if (flight) {
+        if (flight && flight.statusEvents.length > 0) {
             const event = flight.statusEvents[flight.statusEvents.length - 1]
             switch (event.event.oneofKind) {
                 case 'flightCancelled':
