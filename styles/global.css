@@ -8,6 +8,10 @@
     min-width: 500px;
 }
 
-main {
+/* keep footer at the bottom of the screen */
+body {
     min-height: 100vh;
+    margin: 0;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
 }
