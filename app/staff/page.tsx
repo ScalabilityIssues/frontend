@@ -3,7 +3,7 @@
 import { ValidationClient } from "@/clients/gen/validationsvc/validation.client"
 import { webTransport } from "@/clients/transports/web";
 import QrScanner from "@/components/qr-scanner"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import * as ed from '@noble/ed25519';
 import { SignedTicket } from "@/clients/gen/validationsvc/validation";
 import { Html5QrcodeResult } from "html5-qrcode";
@@ -16,30 +16,41 @@ API pseudo structure
 @ JonM0
 */
 export default function Staff() {
-    const clientValidate = new ValidationClient(webTransport);
     const [keys, setKeys] = useState<Uint8Array[]>([])
 
+    const [detectedCode, setDetectedCode] = useState<string>("")
+    const [ticket, setTicket] = useState<Ticket | null>(null)
+
     useEffect(() => {
-        clientValidate.getVerificationKeys({}).then((result) => {
+        new ValidationClient(webTransport).getVerificationKeys({}).then((result) => {
             setKeys(result.response.verificationKeys)
         })
     }, [])
 
+    useEffect(() => {
+        if (keys.length === 0 || detectedCode === "" || ticket !== null) { return; }
 
-    const handleScan = async (detectedCode: string, result: Html5QrcodeResult) => {
         const data = Buffer.from(detectedCode, 'base64')
         const { signature, ticket: ticketBlob } = SignedTicket.fromBinary(data)
 
-        const isvalid = await ed.verifyAsync(signature, ticketBlob, keys[0])
-        const ticket = Ticket.fromBinary(ticketBlob)
-
-        console.log(isvalid, ticket)
-    }
+        ed.verifyAsync(signature, ticketBlob, keys[0]).then(isValid => {
+            if (isValid) {
+                setTicket(Ticket.fromBinary(ticketBlob))
+            }
+            else {
+                console.log('Invalid signature');
+            }
+        })
+    }, [detectedCode, keys, ticket])
 
 
     return (
         <div className="container mx-auto">
-            <QrScanner successCallback={handleScan} />
+            <div>Ticket id: {ticket?.id}</div>
+            <button type="button" onClick={() => (setTicket(null), setDetectedCode(""))}>Clear</button>
+            {keys.length > 0 ? <div className="mx-auto">
+                <QrScanner successCallback={setDetectedCode} />
+            </div> : <div>Fetching keys...</div>}
         </div>
     )
 }
