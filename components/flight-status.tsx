@@ -12,9 +12,9 @@ export default function FlightStatusEventComponent({ props }: { props: FlightSta
                     <div>
                         <div>Flight Delayed</div>
                         <div>New Departure Time: {props.event.flightDelayed.departureTime ?
-                            Timestamp.toDate(props.event.flightDelayed.departureTime).toLocaleString() : "No departure time available"}</div>
+                            Timestamp.toDate(props.event.flightDelayed.departureTime).toUTCString() : "No departure time available"}</div>
                         <div>New Arrival Time: {props.event.flightDelayed.arrivalTime ?
-                            Timestamp.toDate(props.event.flightDelayed.arrivalTime).toLocaleString() : "No arrival time available"}</div>
+                            Timestamp.toDate(props.event.flightDelayed.arrivalTime).toUTCString() : "No arrival time available"}</div>
                     </div>
                 );
             case 'flightGateDeparture':
@@ -29,7 +29,7 @@ export default function FlightStatusEventComponent({ props }: { props: FlightSta
     return (
         <div>
             <div>Event Timestamp: {props.timestamp ?
-                Timestamp.toDate(props.timestamp).toTimeString() : ("No timestamp available")}</div>
+                Timestamp.toDate(props.timestamp).toUTCString() : ("No timestamp available")}</div>
             {renderEvent()}
         </div>
     );

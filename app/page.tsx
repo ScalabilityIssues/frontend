@@ -45,10 +45,8 @@ export default function Home() {
 
   return (
     <>
-    <div className="relative bg-cover bg-center bg-fixed h-screen" style={{ backgroundImage: "url('/wallpaper.jpg')", opacity: 0.7}}>
-      <Header />
-      <div className='flex items-center justify-center min-h-screen'>
-        <form className="bg-blue-200 p-8 rounded-lg grid grid-cols-1 gap-4" onSubmit={handleSubmit}>
+      <div className='flex items-center justify-center'>
+        <form className="bg-blue-200 p-8 rounded-lg grid grid-cols-2 gap-4">
           <div>
             <label htmlFor="departure">Departure:</label>
             <select value={departure} id="departure" onChange={(e) => setDeparture(e.target.value)}>
@@ -85,17 +83,15 @@ export default function Home() {
           </div>
 
           <div>
-            <button type="submit" className="rounded-lg bg-blue-500 px-3 py-2 text-sm font-extrabold
+            <button type="button" className="rounded-lg bg-blue-500 px-3 py-2 text-sm font-extrabold
               text-white hover:bg-blue-700 focus-visible:outline focus-visible:outline-2
-              focus-visible:outline-offset-2 focus-visible:outline-blue-700">
+              focus-visible:outline-offset-2 focus-visible:outline-blue-700" onClick={handleSubmit}>
               Search Flights
             </button>
           </div>
 
         </form>
       </div>
-      <Footer />
-    </div>
     </>
   )
 }
