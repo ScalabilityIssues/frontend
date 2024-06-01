@@ -27,7 +27,7 @@ export default function PlanesAdmin() {
                         <h2>{plane.model}</h2>
                         <p>Cabin capacity (number of person): {plane.cabinCapacity}</p>
                         <p>Cabin capacity (in kg): {plane.cargoCapacityKg}</p>
-                        <p>Deleted: {plane.deleted}</p>
+                        <p>Deleted: {plane.deleted ? "Yes" : "No"}</p>
                         <button type="button" onClick={() => { router.push(`/admin/planes/${plane.id}`) }}>Edit</button>
                     </li>
                 ))}

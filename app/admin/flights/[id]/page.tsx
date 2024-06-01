@@ -19,7 +19,6 @@ export default function FlightsIdAdmin({ params }: { params: { id: string } }) {
     const [destination, sepestination] = useState<Airport>();
     const [isEditing, setIsEditing] = useState(false);
     const [selectedStatusEvent, setSelectedStatusEvent] = useState('');
-    const [statusEvent, setStatusEvent] = useState<FlightStatusEvent>();
 
     useEffect(() => {
 
@@ -49,11 +48,12 @@ export default function FlightsIdAdmin({ params }: { params: { id: string } }) {
         e.preventDefault();
         const form = e.currentTarget;
         const formData = new FormData(form);
+        let statusEvent: FlightStatusEvent | undefined = undefined;
 
         switch (selectedStatusEvent) {
             case 'cancelled':
                 const reason = formData.get('cancel_reason') as string;
-                setStatusEvent({
+                statusEvent = ({
                     timestamp: Timestamp.fromDate(new Date()),
                     event: {
                         oneofKind: "flightCancelled",
@@ -64,7 +64,7 @@ export default function FlightsIdAdmin({ params }: { params: { id: string } }) {
             case 'delayed':
                 const departureTime = formData.get('delayed_departureTime') as string;
                 const arrivalTime = formData.get('delayed_arrivalTime') as string;
-                setStatusEvent({
+                statusEvent = ({
                     timestamp: Timestamp.fromDate(new Date()),
                     event: {
                         oneofKind: "flightDelayed",
@@ -77,7 +77,7 @@ export default function FlightsIdAdmin({ params }: { params: { id: string } }) {
                 break;
             case 'gate_departure':
                 const gateDeparture = formData.get('gate_departure') as string;
-                setStatusEvent({
+                statusEvent = ({
                     timestamp: Timestamp.fromDate(new Date()),
                     event: {
                         oneofKind: "flightGateDeparture",
@@ -87,7 +87,7 @@ export default function FlightsIdAdmin({ params }: { params: { id: string } }) {
                 break;
             case 'gate_arrival':
                 const gateArrival = formData.get('gate_arrival') as string;
-                setStatusEvent({
+                statusEvent = ({
                     timestamp: Timestamp.fromDate(new Date()),
                     event: {
                         oneofKind: "flightGateArrival",
@@ -97,9 +97,9 @@ export default function FlightsIdAdmin({ params }: { params: { id: string } }) {
                 break;
         }
 
-        clientFlights.updateFlight({ id: params.id, statusEvent });
-        setIsEditing(false);
+        clientFlights.updateFlight({ id: params.id, statusEvent }).then(() => setIsEditing(false));
     }
+
 
     const toggleEdit = () => {
         setIsEditing(!isEditing);
@@ -124,30 +124,30 @@ export default function FlightsIdAdmin({ params }: { params: { id: string } }) {
                             {selectedStatusEvent === 'cancelled' && (
                                 <div>
                                     <label htmlFor="cancel_reason">Reason</label>
-                                    <input type="text" id="cancel_reason" />
+                                    <input type="text" id="cancel_reason" name="cancel_reason" />
                                 </div>
                             )}
 
                             {selectedStatusEvent === 'delayed' && (
                                 <div>
                                     <label htmlFor="delayed_departureTime">Departure Time</label>
-                                    <input type="datetime-local" id="delayed_departureTime" />
+                                    <input type="datetime-local" id="delayed_departureTime" name="delayed_departureTime" />
                                     <label htmlFor="delayed_arrivalTime">Arrival Time</label>
-                                    <input type="datetime-local" id="delayed_arrivalTime" />
+                                    <input type="datetime-local" id="delayed_arrivalTime" name="delayed_arrivalTime" />
                                 </div>
                             )}
 
                             {selectedStatusEvent === 'gate_departure' && (
                                 <div>
                                     <label htmlFor="gate_departure">Gate</label>
-                                    <input type="text" id="gate_departure" />
+                                    <input type="text" id="gate_departure" name="gate_departure" />
                                 </div>
                             )}
 
                             {selectedStatusEvent === 'gate_arrival' && (
                                 <div>
                                     <label htmlFor="gate_arrival">Gate</label>
-                                    <input type="text" id="gate_arrival" />
+                                    <input type="text" id="gate_arrival" name="gate_arrival" />
                                 </div>
                             )}
 
@@ -161,21 +161,27 @@ export default function FlightsIdAdmin({ params }: { params: { id: string } }) {
                         <p>Origin airport: {origin?.name} - {origin?.iata}</p>
                         <p>Destination airport: {destination?.name} - {destination?.iata}</p>
                         <p>Plane id: {flight.planeId}</p>
-                        <p>Departure time: {flight.departureTime ? (Timestamp.toDate(flight.departureTime).toTimeString()) : "No info available"}</p>
-                        <p>Expected departure time: {flight.expectedDepartureTime ? (Timestamp.toDate(flight.expectedDepartureTime).toTimeString()) : "No info available"}</p>
+                        <p>Departure time: {flight.departureTime ? (Timestamp.toDate(flight.departureTime).toUTCString()) : "No info available"}</p>
+                        <p>Expected departure time: {flight.expectedDepartureTime ? (Timestamp.toDate(flight.expectedDepartureTime).toUTCString()) : "No info available"}</p>
                         <p>Departure gate: {flight.departureGate ? flight.departureGate : "No info available"}</p>
-                        <p>Arrival time: {flight.arrivalTime ? (Timestamp.toDate(flight.arrivalTime).toTimeString()) : "No info available"}</p>
-                        <p>Expected arrival time: {flight.expectedArrivalTime ? (Timestamp.toDate(flight.expectedArrivalTime).toTimeString()) : "No info available"}</p>
+                        <p>Arrival time: {flight.arrivalTime ? (Timestamp.toDate(flight.arrivalTime).toUTCString()) : "No info available"}</p>
+                        <p>Expected arrival time: {flight.expectedArrivalTime ? (Timestamp.toDate(flight.expectedArrivalTime).toUTCString()) : "No info available"}</p>
                         <p>Arrival gate: {flight.arrivalGate ? flight.arrivalGate : "No info available"}</p>
                         <p>Cancelled: {flight.isCancelled ? "Yes" : "No"}</p>
 
                         <h2>Status events</h2>
                         <ul>
-                            {flight.statusEvents.map((event, index) => (
-                                <li key={index}>
-                                    <FlightStatusEventComponent props={event} />
-                                </li>
-                            ))}
+                            {flight.statusEvents.slice()
+                                .sort((a, b) => {
+                                    return ((a.timestamp && Timestamp.toDate(a.timestamp).getTime()) || 0) -
+                                        ((b.timestamp && Timestamp.toDate(b.timestamp).getTime()) || 0);
+                                })
+                                .map((event, index) => (
+                                    <li key={index}>
+                                        <FlightStatusEventComponent props={event} />
+                                    </li>
+
+                                ))}
                         </ul>
                         <button type="button" onClick={toggleEdit}>Edit</button>
                     </>

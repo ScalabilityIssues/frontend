@@ -51,10 +51,10 @@ export default function FlightsAdmin() {
                 <tbody>
                     {flights.map((flight, index) => (
                         <tr key={index}>
-                            <td>{airportDict[flight.id]?.name} - {airportDict[flight.id]?.iata}</td>
-                            <td>{airportDict[flight.id]?.name} - {airportDict[flight.id]?.iata}</td>
-                            <td>{flight.departureTime ? (Timestamp.toDate(flight.departureTime).toTimeString()) : "No info available"}</td>
-                            <td>{flight.arrivalTime ? (Timestamp.toDate(flight.arrivalTime).toTimeString()) : "No info available"}</td>
+                            <td>{airportDict[flight.originId]?.name} - {airportDict[flight.originId]?.iata}</td>
+                            <td>{airportDict[flight.destinationId]?.name} - {airportDict[flight.destinationId]?.iata}</td>
+                            <td>{flight.departureTime ? (Timestamp.toDate(flight.departureTime).toUTCString()) : "No info available"}</td>
+                            <td>{flight.arrivalTime ? (Timestamp.toDate(flight.arrivalTime).toUTCString()) : "No info available"}</td>
                             <td>
                                 <button type="button" onClick={() => router.push(`/admin/planes/${flight.planeId}`)}>More plane info</button>
                                 <button type="button" onClick={() => router.push(`/admin/flights/${flight.id}`)}>More flight info</button>
@@ -63,5 +63,6 @@ export default function FlightsAdmin() {
                     ))}
                 </tbody>
             </table>
-        </div>)
+        </div>
+    )
 }

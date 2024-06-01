@@ -18,15 +18,15 @@ export default function PlanesIdAdmin({ params }: { params: { id: string } }) {
     const [plane, setPlane] = useState<Plane>();
 
     useEffect(() => {
-
         clientPlanes.getPlane({ id: params.id }).then((result) => {
             setPlane(result.response);
         });
     }, []);
 
     const handleDelete = () => {
-        clientPlanes.deletePlane({ id: params.id });
-        router.push('/admin/planes');
+        clientPlanes.deletePlane({ id: params.id }).then(() => {
+            router.push('/admin/planes');
+        })
     }
 
     return (
@@ -38,7 +38,7 @@ export default function PlanesIdAdmin({ params }: { params: { id: string } }) {
                     <p>Cabin capacity (number of person): {plane?.cabinCapacity}</p>
                     <p>Cabin capacity (in kg): {plane?.cargoCapacityKg}</p>
                     <p>Deleted: {plane?.deleted ? "Yes" : "No"}</p>
-                    {!plane?.deleted && <button type="button" onClick={() => { handleDelete }}>Delete</button>}
+                    {!plane?.deleted && <button type="button" onClick={handleDelete}>Delete</button>}
                 </>
             }
         </div >

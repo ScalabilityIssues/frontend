@@ -52,7 +52,7 @@ export default function Flights({ searchParams }: {
                 setOffers(result.response.offers);
             });
         }
-    }, []);
+    }, [departure, destination, departureDate]);
 
     const handlePrevious = () => {
         setStep(1);

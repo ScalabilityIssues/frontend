@@ -58,7 +58,10 @@ export default function TicketIdDetails({ params }: { params: { id: string } }) 
 
     useEffect(() => {
         if (flight && flight.statusEvents.length > 0) {
-            const event = flight.statusEvents[flight.statusEvents.length - 1]
+            const event = flight.statusEvents.slice().sort((a, b) => {
+                return ((a.timestamp && Timestamp.toDate(a.timestamp).getTime()) || 0) -
+                    ((b.timestamp && Timestamp.toDate(b.timestamp).getTime()) || 0);
+            })[flight.statusEvents.length - 1]
             switch (event.event.oneofKind) {
                 case 'flightCancelled':
                     setLastStatus(event)
@@ -93,7 +96,7 @@ export default function TicketIdDetails({ params }: { params: { id: string } }) 
                     <p>Name: {ticket.passenger?.name}</p>
                     <p>Surname: {ticket.passenger?.surname}</p>
                     <p>Birth date: {ticket.passenger?.birthDate ?
-                        (Timestamp.toDate(ticket.passenger?.birthDate).toDateString()) : ("No info available")}</p>
+                        (Timestamp.toDate(ticket.passenger?.birthDate).toLocaleString()) : ("No info available")}</p>
                     <p>Email: {ticket.passenger?.email}</p>
 
                     <p>Reservation datetime: {ticket.reservationDatetime ?
