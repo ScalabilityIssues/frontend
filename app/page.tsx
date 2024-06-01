@@ -1,8 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from 'react';
-import Header from "@/components/header"
-import Footer from "@/components/footer"
+import React, { FormEvent, useEffect, useState } from 'react';
 import { useRouter } from "next/navigation";
 import { webTransport } from '@/clients/transports/web'
 import { AirportsClient } from '@/clients/gen/flightmngr/airports.client';
@@ -35,7 +33,8 @@ export default function Home() {
     });
   }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
     const params = new URLSearchParams();
     params.set('departure', departure);
     params.set('destination', destination);
@@ -44,11 +43,10 @@ export default function Home() {
   };
 
   return (
-    <>
-    <div className="relative bg-cover bg-center bg-fixed h-screen" style={{ backgroundImage: "url('/wallpaper.jpg')", opacity: 0.7}}>
-      <Header />
-      <div className='flex items-center justify-center min-h-screen'>
-        <form className="bg-blue-200 p-8 rounded-lg grid grid-cols-1 gap-4" onSubmit={handleSubmit}>
+    <div className="flex items-center justify-center" style={{ backgroundImage: "url('/wallpaper.jpg')", opacity: 0.7, minHeight: "80vh"}}>
+
+      <div className="bg-blue-200 p-8 rounded-lg">
+        <form className="grid grid-cols-1 gap-4" onSubmit={handleSubmit}>
           <div>
             <label htmlFor="departure">Departure:</label>
             <select value={departure} id="departure" onChange={(e) => setDeparture(e.target.value)}>
@@ -94,8 +92,7 @@ export default function Home() {
 
         </form>
       </div>
-      <Footer />
+
     </div>
-    </>
   )
 }
