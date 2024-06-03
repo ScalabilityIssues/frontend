@@ -81,7 +81,7 @@ export default function TicketIdDetails({ params }: { params: { id: string } }) 
 
 
     return (
-        <div>
+        <div className="container mx-auto">
             {ticket === undefined ? (<h1>Ticket not found</h1>) :
                 <>
                     <h1>Ticket details</h1>

@@ -19,7 +19,7 @@ export default function PlanesAdmin() {
     }, []);
 
     return (
-        <div>
+        <div className="container mx-auto">
             <h1>Plane list</h1>
             <ul>
                 {planes.map((plane, index) => (

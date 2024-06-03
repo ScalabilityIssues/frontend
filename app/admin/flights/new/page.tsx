@@ -60,7 +60,7 @@ export default function AddFlightAdmin() {
     }
 
     return (
-        <div>
+        <div className="container mx-auto">
             <h1>Add new flight</h1>
             <form>
                 <label>

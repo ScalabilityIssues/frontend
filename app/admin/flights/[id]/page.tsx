@@ -106,7 +106,7 @@ export default function FlightsIdAdmin({ params }: { params: { id: string } }) {
     };
 
     return (
-        <div>
+        <div className="container mx-auto">
             {flight === undefined ? (<h1>Flight not found</h1>) :
                 isEditing ? (
                     <>

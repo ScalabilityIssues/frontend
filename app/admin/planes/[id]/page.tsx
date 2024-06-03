@@ -30,7 +30,7 @@ export default function PlanesIdAdmin({ params }: { params: { id: string } }) {
     }
 
     return (
-        <div>
+        <div className="container mx-auto">
             {plane === undefined ? (<h1>Plane not found</h1>) :
                 <>
                     <h1>Plane id: {plane?.id}</h1>

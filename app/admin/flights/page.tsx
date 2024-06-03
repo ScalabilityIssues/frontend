@@ -36,7 +36,7 @@ export default function FlightsAdmin() {
     }, []);
 
     return (
-        <div>
+        <div className="container mx-auto">
             <h2>Flight list</h2>
             <table>
                 <thead>

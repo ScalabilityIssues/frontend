@@ -37,7 +37,7 @@ export default function AddPlanesAdmin() {
 
 
     return (
-        <div>
+        <div className="container mx-auto">
             <h1>Add new plane</h1>
             <form>
                 <label>

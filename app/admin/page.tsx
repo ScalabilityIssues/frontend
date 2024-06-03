@@ -12,7 +12,7 @@ export default function Admin() {
   const router = useRouter();
 
   return (
-    <div>
+    <div className="container mx-auto">
       <h1>Admin Dashboard</h1>
       <h2>Monitoring</h2>
       <button type="button" onClick={() => router.push("/admin/airports/")}>Check all the airports</button>

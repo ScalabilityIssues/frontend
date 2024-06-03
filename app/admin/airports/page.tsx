@@ -41,7 +41,7 @@ export default function AirportsAdmin() {
 
 
 
-    return (<div>
+    return (<div className="container mx-auto">
         <h1>Airport list</h1>
         <ul>
             {airports.map((airport) => (
@@ -82,51 +82,3 @@ export default function AirportsAdmin() {
 
     </div>)
 }
-
-
-
-/**
- * message Airport {
-
-    // The unique identifier for the airport model
-    // This is a UUID
-    string id = 1 [
-        (google.api.field_behavior) = IDENTIFIER
-    ];
-
-    // The ICAO code of the airport
-    string icao = 2 [
-        (google.api.field_behavior) = IMMUTABLE, 
-        (google.api.field_behavior) = REQUIRED
-    ];
-    
-    // The IATA code of the airport
-    string iata = 3 [
-        (google.api.field_behavior) = IMMUTABLE, 
-        (google.api.field_behavior) = REQUIRED
-    ];
-    
-    // The airport name
-    string name = 4 [
-        (google.api.field_behavior) = IMMUTABLE, 
-        (google.api.field_behavior) = REQUIRED
-    ];
-    
-    // The country the airport is located in
-    string country = 5 [
-        (google.api.field_behavior) = IMMUTABLE, 
-        (google.api.field_behavior) = REQUIRED
-    ];
-    
-    // The city the airport is located in
-    string city = 6 [
-        (google.api.field_behavior) = IMMUTABLE, 
-        (google.api.field_behavior) = REQUIRED
-    ];
-
-        // Whether the airport has been soft-deleted.
-    bool deleted = 7 [
-        (google.api.field_behavior) = OUTPUT_ONLY
-    ];
-}
- */
