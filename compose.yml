@@ -7,6 +7,7 @@ services:
       - 60001:50051
       - 8080:8080
       - 80:80
+      - 443:443
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command:
@@ -110,6 +111,22 @@ services:
       - traefik.http.routers.validationsvc.middlewares=grpcweb
       - traefik.http.services.validationsvc.loadbalancer.server.port=50051
       - traefik.http.services.validationsvc.loadbalancer.server.scheme=h2c
+  
+  updatesvc:
+    image: ghcr.io/scalabilityissues/update-service:main
+    pull_policy: always
+    restart: unless-stopped
+    environment:
+      RABBITMQ_USERNAME: "guest"
+      RABBITMQ_PASSWORD: "guest"
+      RABBITMQ_HOST: "rabbitmq"
+      SMTP_PORT: "1025"
+
+  mailsvc:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"
+      - "1025:1025"
   
   frontend:
     build: .
