@@ -112,7 +112,7 @@ export default function Flights({ searchParams }: {
                                     <li key={index}
                                         className={`p-4 mb-4 border rounded cursor-pointer
                                     ${selectedOffer === index ? 'bg-blue-500 text-white' : 'bg-white text-black'}`}>
-                                        <h2>Flight {index}</h2>
+                                        <h2>Flight {index + 1}</h2>
                                         <p>{offer.flight?.departureTime && offer.flight?.arrivalTime ?
                                             `${Timestamp.toDate(offer.flight.departureTime).toString()} - ${Timestamp.toDate(offer.flight.arrivalTime).toString()}` : ''}
                                         </p>

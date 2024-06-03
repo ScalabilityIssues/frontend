@@ -96,7 +96,7 @@ export default function TicketIdDetails({ params }: { params: { id: string } }) 
                     <p>Name: {ticket.passenger?.name}</p>
                     <p>Surname: {ticket.passenger?.surname}</p>
                     <p>Birth date: {ticket.passenger?.birthDate ?
-                        (Timestamp.toDate(ticket.passenger?.birthDate).toLocaleString()) : ("No info available")}</p>
+                        (Timestamp.toDate(ticket.passenger?.birthDate).toLocaleDateString()) : ("No info available")}</p>
                     <p>Email: {ticket.passenger?.email}</p>
 
                     <p>Reservation datetime: {ticket.reservationDatetime ?
