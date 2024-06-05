@@ -21,8 +21,13 @@ export default function Staff() {
     const [ticket, setTicket] = useState<TicketClaims | null>(null)
 
     useEffect(() => {
+        // load cached keys
+        const k = localStorage.getItem('verificationKeys')
+        if (k) setKeys(JSON.parse(k).map((k: string) => Buffer.from(k, 'base64')))
+
         new ValidationClient(webTransport).getVerificationKeys({}).then((result) => {
-            setKeys(result.response.verificationKeys)
+            setKeys(result.response.verificationKeys);
+            localStorage.setItem('verificationKeys', JSON.stringify(result.response.verificationKeys.map(k => Buffer.from(k).toString('base64'))));
         })
     }, [])
 
