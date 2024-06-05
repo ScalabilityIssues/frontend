@@ -37,61 +37,34 @@ export default function AddPlanesAdmin() {
 
 
     return (
-        <div className="container mx-auto">
-            <h1>Add new plane</h1>
-            <form>
-                <label>
-                    Model:
-                    <input type="text" value={plane.model} onChange={(e) => updatePlane('model', e.target.value)} />
-                </label>
-                <label>
-                    Cabin capacity:
-                    <input type="number" value={plane.cabinCapacity} onChange={(e) => updatePlane('cabinCapacity', parseInt(e.target.value))} />
-                </label>
-                <label>
-                    Cargo capacity (in kg):
-                    <input type="number" value={plane.cargoCapacityKg} onChange={(e) => updatePlane('cargoCapacityKg', parseInt(e.target.value))} />
-                </label>
-                <button type="button" onClick={handlePlaneAdd}>Add</button>
+        <div className="container mx-auto p-4">
+            <h1 className="text-2xl font-bold text-center mb-6">Add New Plane</h1>
+            <form className="space-y-4">
+                <div>
+                    <label className="block text-gray-700">
+                        Model:
+                        <input type="text" value={plane.model} onChange={(e) => updatePlane('model', e.target.value)} className="mt-1 block w-full p-1 border border-gray-300 rounded-md" />
+                    </label>
+                </div>
+                <div>
+                    <label className="block text-gray-700">
+                        Cabin capacity:
+                        <input type="number" value={plane.cabinCapacity} onChange={(e) => updatePlane('cabinCapacity', parseInt(e.target.value))} className="mt-1 block w-full p-1 border border-gray-300 rounded-md" />
+                    </label>
+                </div>
+                <div>
+                    <label className="block text-gray-700">
+                        Cargo capacity (in kg):
+                        <input type="number" value={plane.cargoCapacityKg} onChange={(e) => updatePlane('cargoCapacityKg', parseInt(e.target.value))} className="mt-1 block w-full p-1 border border-gray-300 rounded-md" />
+                    </label>
+                </div>
+                <button type="button" onClick={handlePlaneAdd} className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
+                    Add
+                </button>
             </form>
         </div>
+
     )
 
 
 }
-
-
-/**
- * // A plane model that is present in the fleet.
-message Plane {
-
-    // The unique identifier for the plane model.
-    // This is a UUID.
-    string id = 1 [
-        (google.api.field_behavior) = IDENTIFIER
-        ];
-
-        // The name of the plane model.
-    string model = 3 [
-        (google.api.field_behavior) = REQUIRED,
-        (google.api.field_behavior) = IMMUTABLE
-    ];
-
-        // The number of passengers that the plane can carry.
-    uint32 cabin_capacity = 4 [
-        (google.api.field_behavior) = REQUIRED,
-        (google.api.field_behavior) = IMMUTABLE
-    ];
-
-        // The maximum weight of cargo that the plane can carry, in kg.
-    uint32 cargo_capacity_kg = 5 [
-        (google.api.field_behavior) = REQUIRED,
-        (google.api.field_behavior) = IMMUTABLE
-    ];
-
-        // Whether the plane model has been soft-deleted.
-    bool deleted = 6 [
-        (google.api.field_behavior) = OUTPUT_ONLY
-    ];
-}
- */

@@ -60,46 +60,88 @@ export default function AddFlightAdmin() {
     }
 
     return (
-        <div className="container mx-auto">
-            <h1>Add new flight</h1>
-            <form>
-                <label>
-                    Plane:
-                    <select onChange={(e) => setPlaneIdx(parseInt(e.target.value))}>
-                        <option value="-1">Select plane</option>
-                        {planes?.map((plane, idx) => (
-                            <option key={plane.id} value={idx}>{plane.model}</option>
-                        ))}
-                    </select>
-                </label>
-                <label>
-                    Origin airport:
-                    <select onChange={(e) => setOriginAirportIdx(parseInt(e.target.value))}>
-                        <option value="-1">Select origin airport</option>
-                        {airports?.map((airport, idx) => (
-                            <option key={airport.id} value={idx}>{airport.name}</option>
-                        ))}
-                    </select>
-                </label>
-                <label>
-                    Destination airport:
-                    <select onChange={(e) => setDestinationAirportIdx(parseInt(e.target.value))}>
-                        <option value="-1">Select destination airport</option>
-                        {airports?.map((airport, idx) => (
-                            <option key={airport.id} value={idx}>{airport.name}</option>
-                        ))}
-                    </select>
-                </label>
-                <label>
-                    Departure time:
-                    <input type="datetime-local" value={flight.departureTime} onChange={(e) => setFlight({ ...flight, departureTime: e.target.value })} />
-                </label>
-                <label>
-                    Arrival time:
-                    <input type="datetime-local" value={flight.arrivalTime} onChange={(e) => setFlight({ ...flight, arrivalTime: e.target.value })} />
-                </label>
-                <button type="button" onClick={handleFlightAdd}>Add</button>
+        <div className="container mx-auto p-4">
+            <h1 className="text-2xl font-bold text-center mb-6">Add New Flight</h1>
+            <form className="space-y-4">
+                <div>
+                    <label className="block text-gray-700">
+                        Plane:
+                        <select
+                            onChange={(e) => setPlaneIdx(parseInt(e.target.value))}
+                            className="mt-1 block w-full p-1 border border-gray-300 rounded-md"
+                        >
+                            <option value="-1">Select plane</option>
+                            {planes?.map((plane, idx) => (
+                                <option key={plane.id} value={idx}>
+                                    {plane.model}
+                                </option>
+                            ))}
+                        </select>
+                    </label>
+                </div>
+                <div>
+                    <label className="block text-gray-700">
+                        Origin airport:
+                        <select
+                            onChange={(e) => setOriginAirportIdx(parseInt(e.target.value))}
+                            className="mt-1 block w-full p-1 border border-gray-300 rounded-md"
+                        >
+                            <option value="-1">Select origin airport</option>
+                            {airports?.map((airport, idx) => (
+                                <option key={airport.id} value={idx}>
+                                    {airport.name}
+                                </option>
+                            ))}
+                        </select>
+                    </label>
+                </div>
+                <div>
+                    <label className="block text-gray-700">
+                        Destination airport:
+                        <select
+                            onChange={(e) => setDestinationAirportIdx(parseInt(e.target.value))}
+                            className="mt-1 block w-full p-1 border border-gray-300 rounded-md"
+                        >
+                            <option value="-1">Select destination airport</option>
+                            {airports?.map((airport, idx) => (
+                                <option key={airport.id} value={idx}>
+                                    {airport.name}
+                                </option>
+                            ))}
+                        </select>
+                    </label>
+                </div>
+                <div>
+                    <label className="block text-gray-700">
+                        Departure time:
+                        <input
+                            type="datetime-local"
+                            value={flight.departureTime}
+                            onChange={(e) => setFlight({ ...flight, departureTime: e.target.value })}
+                            className="mt-1 block w-full p-1 border border-gray-300 rounded-md"
+                        />
+                    </label>
+                </div>
+                <div>
+                    <label className="block text-gray-700">
+                        Arrival time:
+                        <input
+                            type="datetime-local"
+                            value={flight.arrivalTime}
+                            onChange={(e) => setFlight({ ...flight, arrivalTime: e.target.value })}
+                            className="mt-1 block w-full p-1 border border-gray-300 rounded-md"
+                        />
+                    </label>
+                </div>
+                <button
+                    type="button"
+                    onClick={handleFlightAdd}
+                    className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+                >
+                    Add
+                </button>
             </form>
         </div>
+
     )
 }

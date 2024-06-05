@@ -104,63 +104,69 @@ export default function Flights({ searchParams }: {
         <div className="container mx-auto p-4">
             {step === 1 ? (
                 <>
-                    <h1 className="text-2xl font-bold mb-4">Flight Results</h1>
+                    <h1 className="text-2xl font-bold mb-6">Flight Results</h1>
                     {offers.length > 0 ? (
                         <>
-                            <ul>
+                            <ul className="space-y-4">
                                 {offers.map((offer, index) => (
                                     <li key={index}
-                                        className={`p-4 mb-4 border rounded cursor-pointer
-                                    ${selectedOffer === index ? 'bg-blue-500 text-white' : 'bg-white text-black'}`}>
-                                        <h2>Flight {index + 1}</h2>
-                                        <p>{offer.flight?.departureTime && offer.flight?.arrivalTime ?
-                                            `${Timestamp.toDate(offer.flight.departureTime).toString()} - ${Timestamp.toDate(offer.flight.arrivalTime).toString()}` : ''}
+                                        className={`p-4 border rounded cursor-pointer transition-colors
+                                        ${selectedOffer === index ? 'bg-blue-500 text-white' : 'bg-white text-black hover:bg-gray-100'}`}
+                                        onClick={() => setSelectedOffer(index)}>
+                                        <h2 className="text-xl font-semibold">Flight {index + 1}</h2>
+                                        <p className="block text-black-700">
+                                            {offer.flight?.departureTime && offer.flight?.arrivalTime ?
+                                                `${Timestamp.toDate(offer.flight.departureTime).toLocaleString()} - ${Timestamp.toDate(offer.flight.arrivalTime).toLocaleString()}` : ''}
                                         </p>
-                                        <p>{offer.price?.units}{offer.price?.currencyCode}</p>
-                                        <button type="button" onClick={() => setSelectedOffer(index)}>Select</button>
+                                        <p className="block text-black-700">{offer.price?.units}{offer.price?.currencyCode}</p>
                                     </li>
                                 ))}
                             </ul>
-                            <button type="button" onClick={handleNext} disabled={selectedOffer === -1}>
+                            <button type="button" onClick={handleNext} disabled={selectedOffer === -1} className="mt-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
                                 Next
                             </button>
                         </>
                     ) : (
-                        <p>No flights found</p>
+                        <p className="block text-black-700 text-red-500">No flights found</p>
                     )}
                 </>
             ) : (
                 <>
-                    <h1>Enter User Information</h1>
-                    <form onSubmit={handlePurchase}>
+                    <h1 className="text-2xl font-bold mb-6">Enter User Information</h1>
+                    <form onSubmit={handlePurchase} className="space-y-4">
                         <div>
-                            <label htmlFor="ssn">SSN</label>
-                            <input type="text" id="ssn" value={passenger.ssn} onChange={(e) => updatePassenger('ssn', e.target.value)} />
+                            <label htmlFor="ssn" className="block block text-black-700 font-medium">SSN</label>
+                            <input type="text" id="ssn" value={passenger.ssn} onChange={(e) => updatePassenger('ssn', e.target.value)} className="mt-1 block w-full p-1 border border-gray-300 rounded-md" />
                         </div>
                         <div>
-                            <label htmlFor="name">Name</label>
-                            <input type="text" id="name" value={passenger.name} onChange={(e) => updatePassenger('name', e.target.value)} />
+                            <label htmlFor="name" className="block block text-black-700 font-medium">Name</label>
+                            <input type="text" id="name" value={passenger.name} onChange={(e) => updatePassenger('name', e.target.value)} className="mt-1 block w-full p-1 border border-gray-300 rounded-md" />
                         </div>
                         <div>
-                            <label htmlFor="surname">Surname</label>
-                            <input type="text" id="surname" value={passenger.surname} onChange={(e) => updatePassenger('surname', e.target.value)} />
+                            <label htmlFor="surname" className="block block text-black-700 font-medium">Surname</label>
+                            <input type="text" id="surname" value={passenger.surname} onChange={(e) => updatePassenger('surname', e.target.value)} className="mt-1 block w-full p-1 border border-gray-300 rounded-md" />
                         </div>
                         <div>
-                            <label htmlFor="birth_date">Birth Date</label>
-                            <input type="date" id="birth_date" value={passenger.birth_date} onChange={(e) => updatePassenger('birth_date', e.target.value)} />
+                            <label htmlFor="birth_date" className="block block text-black-700 font-medium">Birth Date</label>
+                            <input type="date" id="birth_date" value={passenger.birth_date} onChange={(e) => updatePassenger('birth_date', e.target.value)} className="mt-1 block w-full p-1 border border-gray-300 rounded-md" />
                         </div>
                         <div>
-                            <label htmlFor="email">Email</label>
-                            <input type="email" id="email" value={passenger.email} onChange={(e) => updatePassenger('email', e.target.value)} />
+                            <label htmlFor="email" className="block block text-black-700 font-medium">Email</label>
+                            <input type="email" id="email" value={passenger.email} onChange={(e) => updatePassenger('email', e.target.value)} className="mt-1 block w-full p-1 border border-gray-300 rounded-md" />
                         </div>
 
-                        <div>
-                            <button type="button" onClick={handlePrevious}>Previous</button>
-                            <button type="submit" disabled={!isUserInfoComplete}>Purchase</button>
+                        <div className="flex justify-between">
+                            <button type="button" onClick={handlePrevious} className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+                                Previous
+                            </button>
+                            <button type="submit" disabled={!isUserInfoComplete} className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                                Purchase
+                            </button>
                         </div>
                     </form>
                 </>
             )}
         </div>
+
     );
 };

@@ -36,33 +36,36 @@ export default function FlightsAdmin() {
     }, []);
 
     return (
-        <div className="container mx-auto">
-            <h2>Flight list</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Origin</th>
-                        <th>Destination</th>
-                        <th>Departure time</th>
-                        <th>Arrival time</th>
-                        <th>Additional action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {flights.map((flight, index) => (
-                        <tr key={index}>
-                            <td>{airportDict[flight.originId]?.name} - {airportDict[flight.originId]?.iata}</td>
-                            <td>{airportDict[flight.destinationId]?.name} - {airportDict[flight.destinationId]?.iata}</td>
-                            <td>{flight.departureTime ? (Timestamp.toDate(flight.departureTime).toUTCString()) : "No info available"}</td>
-                            <td>{flight.arrivalTime ? (Timestamp.toDate(flight.arrivalTime).toUTCString()) : "No info available"}</td>
-                            <td>
-                                <button type="button" onClick={() => router.push(`/admin/planes/${flight.planeId}`)}>More plane info</button>
-                                <button type="button" onClick={() => router.push(`/admin/flights/${flight.id}`)}>More flight info</button>
-                            </td>
+        <div className="container mx-auto p-4">
+            <h1 className="text-2xl font-bold text-center mb-6">Flight List</h1>
+            <div className="overflow-x-auto">
+                <table className="min-w-full bg-white shadow-md rounded-lg">
+                    <thead>
+                        <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                            <th className="py-3 px-6 text-left">Origin</th>
+                            <th className="py-3 px-6 text-left">Destination</th>
+                            <th className="py-3 px-6 text-left">Departure time</th>
+                            <th className="py-3 px-6 text-left">Arrival time</th>
+                            <th className="py-3 px-6 text-left">Additional action</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody className="text-gray-700 text-sm">
+                        {flights.map((flight, index) => (
+                            <tr key={index} className="border-b border-gray-200 hover:bg-gray-100">
+                                <td className="py-3 px-6 text-left">{airportDict[flight.originId]?.name} - {airportDict[flight.originId]?.iata}</td>
+                                <td className="py-3 px-6 text-left">{airportDict[flight.destinationId]?.name} - {airportDict[flight.destinationId]?.iata}</td>
+                                <td className="py-3 px-6 text-left">{flight.departureTime ? (Timestamp.toDate(flight.departureTime).toUTCString()) : "No info available"}</td>
+                                <td className="py-3 px-6 text-left">{flight.arrivalTime ? (Timestamp.toDate(flight.arrivalTime).toUTCString()) : "No info available"}</td>
+                                <td className="py-3 px-6 text-left space-x-2">
+                                    <button type="button" onClick={() => router.push(`/admin/planes/${flight.planeId}`)} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">More plane info</button>
+                                    <button type="button" onClick={() => router.push(`/admin/flights/${flight.id}`)} className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">More flight info</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
+
     )
 }

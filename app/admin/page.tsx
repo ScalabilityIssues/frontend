@@ -12,15 +12,24 @@ export default function Admin() {
   const router = useRouter();
 
   return (
-    <div className="container mx-auto">
-      <h1>Admin Dashboard</h1>
-      <h2>Monitoring</h2>
-      <button type="button" onClick={() => router.push("/admin/airports/")}>Check all the airports</button>
-      <button type="button" onClick={() => router.push("/admin/planes/")}>Check all the planes</button>
-      <button type="button" onClick={() => router.push("/admin/flights/")}>Check all the flights</button>
-      <h2>Insertion</h2>
-      <button type="button" onClick={() => router.push("/admin/planes/new")}>Add new plane</button>
-      <button type="button" onClick={() => router.push("/admin/flights/new")}>Add new flight</button>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold text-center mb-6">Admin Dashboard</h1>
+      <div className="mb-8">
+        <h2 className="text-2xl font-semibold mb-4">Monitoring</h2>
+        <div className="space-y-2">
+          <button type="button" onClick={() => router.push("/admin/airports/")} className="bg-blue-500 text-white px-4 py-2 mx-1 rounded-md hover:bg-blue-600 w-full md:w-auto">Check all the airports</button>
+          <button type="button" onClick={() => router.push("/admin/planes/")} className="bg-blue-500 text-white px-4 py-2 mx-1 rounded-md hover:bg-blue-600 w-full md:w-auto">Check all the planes</button>
+          <button type="button" onClick={() => router.push("/admin/flights/")} className="bg-blue-500 text-white px-4 py-2 mx-1 rounded-md hover:bg-blue-600 w-full md:w-auto">Check all the flights</button>
+        </div>
+      </div>
+      <div>
+        <h2 className="text-2xl font-semibold mb-4">Insertion</h2>
+        <div className="space-y-2">
+          <button type="button" onClick={() => router.push("/admin/planes/new")} className="bg-green-500 text-white px-4 py-2 mx-1 rounded-md hover:bg-green-600 w-full md:w-auto">Add new plane</button>
+          <button type="button" onClick={() => router.push("/admin/flights/new")} className="bg-green-500 text-white px-4 py-2 mx-1 rounded-md hover:bg-green-600 w-full md:w-auto">Add new flight</button>
+        </div>
+      </div>
     </div>
+
   );
 }

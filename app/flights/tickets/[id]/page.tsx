@@ -81,48 +81,47 @@ export default function TicketIdDetails({ params }: { params: { id: string } }) 
 
 
     return (
-        <div className="container mx-auto">
-            {ticket === undefined ? (<h1>Ticket not found</h1>) :
+        <div className="container mx-auto p-4">
+            {ticket === undefined ? (
+                <h1 className="text-2xl font-bold text-center text-red-500">Ticket not found</h1>
+            ) : (
                 <>
-                    <h1>Ticket details</h1>
-                    <p>Id: {ticket.id}</p>
-                    <p>Reservation datetime: {ticket.reservationDatetime ? (Timestamp.toDate(ticket.reservationDatetime).toLocaleString()) : ("No info available")}</p>
+                    <h1 className="text-2xl font-bold text-center mb-6">Ticket Details</h1>
+                    <div className="space-y-4">
+                        <p className="block text-black-700"><span className="font-semibold">Id:</span> {ticket.id}</p>
+                        <p className={`block ${ticket.ticketStatus == 0 ? 'text-green-600' : 'text-red-600'}`}><span className="font-semibold">Status:</span> {ticket.ticketStatus == 0 ? "Valid" : "Deleted"}</p>
+                        <p className="block text-black-700"><span className="font-semibold">Reservation datetime:</span> {ticket.reservationDatetime ? (Timestamp.toDate(ticket.reservationDatetime).toLocaleString()) : ("No info available")}</p>
+                        <p className="block text-black-700"><span className="font-semibold">Estimated cargo weight:</span> {ticket.estimatedCargoWeight}</p>
 
-                    <h2>QR Code</h2>
-                    <QrCode data={qrCode} className='w-1/3' alt="Ticket QR Code" />
+                        <h2 className="text-2xl font-semibold mt-6">QR Code</h2>
+                        <QrCode data={qrCode} className="w-1/3 mx-auto" alt="Ticket QR Code" />
 
-                    <h2>Passenger Details</h2>
-                    <p>SSN: {ticket.passenger?.ssn}</p>
-                    <p>Name: {ticket.passenger?.name}</p>
-                    <p>Surname: {ticket.passenger?.surname}</p>
-                    <p>Birth date: {ticket.passenger?.birthDate ?
-                        (Timestamp.toDate(ticket.passenger?.birthDate).toLocaleDateString()) : ("No info available")}</p>
-                    <p>Email: {ticket.passenger?.email}</p>
+                        <h2 className="text-2xl font-semibold mt-6">Passenger Details</h2>
+                        <p className="block text-black-700"><span className="font-semibold">SSN:</span> {ticket.passenger?.ssn}</p>
+                        <p className="block text-black-700"><span className="font-semibold">Name:</span> {ticket.passenger?.name}</p>
+                        <p className="block text-black-700"><span className="font-semibold">Surname:</span> {ticket.passenger?.surname}</p>
+                        <p className="block text-black-700"><span className="font-semibold">Birth date:</span> {ticket.passenger?.birthDate ? (Timestamp.toDate(ticket.passenger?.birthDate).toLocaleDateString()) : ("No info available")}</p>
+                        <p className="block text-black-700"><span className="font-semibold">Email:</span> {ticket.passenger?.email}</p>
 
-                    <p>Reservation datetime: {ticket.reservationDatetime ?
-                        (Timestamp.toDate(ticket.reservationDatetime).toLocaleString()) : ("No info available")}</p>
-                    <p>Estimated cargo weight: {ticket.estimatedCargoWeight}</p>
+                        <h2 className="text-2xl font-semibold mt-6">Flight Details</h2>
+                        <p className="block text-black-700"><span className="font-semibold">Source airport:</span> {origin?.iata} - {origin?.name} - {origin?.country}</p>
+                        <p className="block text-black-700"><span className="font-semibold">Destination airport:</span> {destination?.iata} - {destination?.name} - {destination?.country}</p>
+                        <p className="block text-black-700"><span className="font-semibold">Departure datetime:</span> {flight?.departureTime ? (Timestamp.toDate(flight?.departureTime).toLocaleString()) : ("No info available")}</p>
+                        <p className="block text-black-700"><span className="font-semibold">Arrival datetime:</span> {flight?.arrivalTime ? (Timestamp.toDate(flight?.arrivalTime).toLocaleString()) : ("No info available")}</p>
 
-                    <h2>Flight details</h2>
-                    <p>Source airport: {origin?.iata} - {origin?.name} - {origin?.country}</p>
-                    <p>Destination airport: {destination?.iata} - {destination?.name} - {destination?.country}</p>
-                    <p>Departure datetime: {flight?.departureTime ?
-                        (Timestamp.toDate(flight?.departureTime).toLocaleString()) : ("No info available")}</p>
-                    <p>Arrival datetime: {flight?.arrivalTime ?
-                        (Timestamp.toDate(flight?.arrivalTime).toLocaleString()) : ("No info available")}</p>
-
-                    <h2>Flight status</h2>
-                    <p>Last event:
-                        {lastStatus === undefined ?
-                            (<p>No status available</p>) : (<FlightStatusEventComponent props={lastStatus} />)}
-                    </p>
-                    <p>Expected departure: {flight?.expectedDepartureTime ?
-                        (Timestamp.toDate(flight?.expectedDepartureTime).toLocaleString()) : ("No info available")}</p>
-                    <p>Expected arrival: {flight?.expectedArrivalTime ?
-                        (Timestamp.toDate(flight?.expectedArrivalTime).toLocaleString()) : ("No info available")}</p>
-
+                        <h2 className="text-2xl font-semibold mt-6">Flight Status</h2>
+                        <p className="block text-black-700"><span className="font-semibold">Last event:</span></p>
+                        {lastStatus === undefined ? (
+                            <p className="block text-black-700">No status available</p>
+                        ) : (
+                            <FlightStatusEventComponent props={lastStatus} />
+                        )}
+                        <p className="block text-black-700"><span className="font-semibold">Expected departure:</span> {flight?.expectedDepartureTime ? (Timestamp.toDate(flight?.expectedDepartureTime).toLocaleString()) : ("No info available")}</p>
+                        <p className="block text-black-700"><span className="font-semibold">Expected arrival:</span> {flight?.expectedArrivalTime ? (Timestamp.toDate(flight?.expectedArrivalTime).toLocaleString()) : ("No info available")}</p>
+                    </div>
                 </>
-            }
+            )}
         </div>
+
     )
 }

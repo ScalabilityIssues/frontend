@@ -97,7 +97,10 @@ export default function FlightsIdAdmin({ params }: { params: { id: string } }) {
                 break;
         }
 
-        clientFlights.updateFlight({ id: params.id, statusEvent }).then(() => setIsEditing(false));
+        clientFlights.updateFlight({ id: params.id, statusEvent }).then(() => {
+            setIsEditing(false);
+            window.location.reload();
+        });
     }
 
 
@@ -106,87 +109,96 @@ export default function FlightsIdAdmin({ params }: { params: { id: string } }) {
     };
 
     return (
-        <div className="container mx-auto">
-            {flight === undefined ? (<h1>Flight not found</h1>) :
+        <div className="container mx-auto p-4">
+            {flight === undefined ? (
+                <h1 className="text-2xl font-bold text-center text-red-600 mb-6">Flight not found</h1>
+            ) : (
                 isEditing ? (
                     <>
-                        <h1>Edit Flight</h1>
-                        <form onSubmit={handleSubmit}>
-                            <label htmlFor="eventSelect">Event Type</label>
-                            <select name="event" onChange={handleStatusEventChange} id="eventSelect">
-                                <option value="">Select an event</option>
-                                <option value="cancelled">Flight Cancelled</option>
-                                <option value="delayed">Flight Delayed</option>
-                                <option value="gate_departure">Flight Gate Departure</option>
-                                <option value="gate_arrival">Flight Gate Arrival</option>
-                            </select>
+                        <h1 className="text-2xl font-bold text-center mb-6">Edit Flight</h1>
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <div>
+                                <label htmlFor="eventSelect" className="block text-gray-700">Event Type</label>
+                                <select name="event" onChange={handleStatusEventChange} id="eventSelect" className="mt-1 block w-full p-1 border border-gray-300 rounded-md">
+                                    <option value="">Select an event</option>
+                                    <option value="cancelled">Flight Cancelled</option>
+                                    <option value="delayed">Flight Delayed</option>
+                                    <option value="gate_departure">Flight Gate Departure</option>
+                                    <option value="gate_arrival">Flight Gate Arrival</option>
+                                </select>
+                            </div>
 
                             {selectedStatusEvent === 'cancelled' && (
                                 <div>
-                                    <label htmlFor="cancel_reason">Reason</label>
-                                    <input type="text" id="cancel_reason" name="cancel_reason" />
+                                    <label htmlFor="cancel_reason" className="block text-gray-700">Reason</label>
+                                    <input type="text" id="cancel_reason" name="cancel_reason" className="mt-1 block w-full p-1 border border-gray-300 rounded-md" />
                                 </div>
                             )}
 
                             {selectedStatusEvent === 'delayed' && (
                                 <div>
-                                    <label htmlFor="delayed_departureTime">Departure Time</label>
-                                    <input type="datetime-local" id="delayed_departureTime" name="delayed_departureTime" />
-                                    <label htmlFor="delayed_arrivalTime">Arrival Time</label>
-                                    <input type="datetime-local" id="delayed_arrivalTime" name="delayed_arrivalTime" />
+                                    <label htmlFor="delayed_departureTime" className="block text-gray-700">Departure Time</label>
+                                    <input type="datetime-local" id="delayed_departureTime" name="delayed_departureTime" className="mt-1 block w-full p-1 border border-gray-300 rounded-md" />
+                                    <label htmlFor="delayed_arrivalTime" className="block text-gray-700 mt-4">Arrival Time</label>
+                                    <input type="datetime-local" id="delayed_arrivalTime" name="delayed_arrivalTime" className="mt-1 block w-full p-1 border border-gray-300 rounded-md" />
                                 </div>
                             )}
 
                             {selectedStatusEvent === 'gate_departure' && (
                                 <div>
-                                    <label htmlFor="gate_departure">Gate</label>
-                                    <input type="text" id="gate_departure" name="gate_departure" />
+                                    <label htmlFor="gate_departure" className="block text-gray-700">Gate</label>
+                                    <input type="text" id="gate_departure" name="gate_departure" className="mt-1 block w-full p-1 border border-gray-300 rounded-md" />
                                 </div>
                             )}
 
                             {selectedStatusEvent === 'gate_arrival' && (
                                 <div>
-                                    <label htmlFor="gate_arrival">Gate</label>
-                                    <input type="text" id="gate_arrival" name="gate_arrival" />
+                                    <label htmlFor="gate_arrival" className="block text-gray-700">Gate</label>
+                                    <input type="text" id="gate_arrival" name="gate_arrival" className="mt-1 block w-full p-1 border border-gray-300 rounded-md" />
                                 </div>
                             )}
 
-                            <button type="submit">Update Flight</button>
-                            <button type="button" onClick={toggleEdit}>Cancel</button>
+                            <div className="flex space-x-4">
+                                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Update Flight</button>
+                                <button type="button" onClick={toggleEdit} className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">Cancel</button>
+                            </div>
                         </form>
                     </>
                 ) : (
                     <>
-                        <h1>Flight id: {flight?.id}</h1>
-                        <p>Origin airport: {origin?.name} - {origin?.iata}</p>
-                        <p>Destination airport: {destination?.name} - {destination?.iata}</p>
-                        <p>Plane id: {flight.planeId}</p>
-                        <p>Departure time: {flight.departureTime ? (Timestamp.toDate(flight.departureTime).toUTCString()) : "No info available"}</p>
-                        <p>Expected departure time: {flight.expectedDepartureTime ? (Timestamp.toDate(flight.expectedDepartureTime).toUTCString()) : "No info available"}</p>
-                        <p>Departure gate: {flight.departureGate ? flight.departureGate : "No info available"}</p>
-                        <p>Arrival time: {flight.arrivalTime ? (Timestamp.toDate(flight.arrivalTime).toUTCString()) : "No info available"}</p>
-                        <p>Expected arrival time: {flight.expectedArrivalTime ? (Timestamp.toDate(flight.expectedArrivalTime).toUTCString()) : "No info available"}</p>
-                        <p>Arrival gate: {flight.arrivalGate ? flight.arrivalGate : "No info available"}</p>
-                        <p>Cancelled: {flight.isCancelled ? "Yes" : "No"}</p>
+                        <h1 className="text-2xl font-bold text-center mb-6">Flight id: {flight?.id}</h1>
+                        <div className="space-y-4">
+                            <p className="text-gray-700"><strong>Origin airport:</strong> {origin?.name} - {origin?.iata}</p>
+                            <p className="text-gray-700"><strong>Destination airport:</strong> {destination?.name} - {destination?.iata}</p>
+                            <p className="text-gray-700"><strong>Plane id:</strong> {flight.planeId}</p>
+                            <p className="text-gray-700"><strong>Departure time:</strong> {flight.departureTime ? (Timestamp.toDate(flight.departureTime).toUTCString()) : "No info available"}</p>
+                            <p className="text-gray-700"><strong>Expected departure time:</strong> {flight.expectedDepartureTime ? (Timestamp.toDate(flight.expectedDepartureTime).toUTCString()) : "No info available"}</p>
+                            <p className="text-gray-700"><strong>Departure gate:</strong> {flight.departureGate ? flight.departureGate : "No info available"}</p>
+                            <p className="text-gray-700"><strong>Arrival time:</strong> {flight.arrivalTime ? (Timestamp.toDate(flight.arrivalTime).toUTCString()) : "No info available"}</p>
+                            <p className="text-gray-700"><strong>Expected arrival time:</strong> {flight.expectedArrivalTime ? (Timestamp.toDate(flight.expectedArrivalTime).toUTCString()) : "No info available"}</p>
+                            <p className="text-gray-700"><strong>Arrival gate:</strong> {flight.arrivalGate ? flight.arrivalGate : "No info available"}</p>
+                            <p className={`${flight.isCancelled ? 'text-red-600' : 'text-green-600'}`}><strong>Cancelled:</strong> {flight.isCancelled ? "Yes" : "No"}</p>
+                        </div>
 
-                        <h2>Status events</h2>
-                        <ul>
+                        <h2 className="text-2xl font-bold text-center mt-6 mb-4">Status events</h2>
+                        <ul className="space-y-2">
                             {flight.statusEvents.slice()
                                 .sort((a, b) => {
                                     return ((a.timestamp && Timestamp.toDate(a.timestamp).getTime()) || 0) -
                                         ((b.timestamp && Timestamp.toDate(b.timestamp).getTime()) || 0);
                                 })
                                 .map((event, index) => (
-                                    <li key={index}>
+                                    <li key={index} className="bg-white shadow-md rounded-lg p-4 border border-gray-200">
                                         <FlightStatusEventComponent props={event} />
                                     </li>
-
                                 ))}
                         </ul>
-                        <button type="button" onClick={toggleEdit}>Edit</button>
+                        <div className="flex justify-center mt-6">
+                            <button type="button" onClick={toggleEdit} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Edit</button>
+                        </div>
                     </>
                 )
-            }
+            )}
         </div>
     )
 }

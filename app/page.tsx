@@ -42,13 +42,16 @@ export default function Home() {
   };
 
   return (
-    <div className="flex items-center justify-center" style={{ backgroundImage: "url('/wallpaper.jpg')", opacity: 0.7, minHeight: "80vh"}}>
-
-      <div className="bg-blue-200 p-8 rounded-lg">
-        <form className="grid grid-cols-1 gap-4">
-          <div>
-            <label htmlFor="departure">Departure:</label>
-            <select value={departure} id="departure" onChange={(e) => setDeparture(e.target.value)}>
+    <div className="bg-gray-100 min-h-screen flex flex-col items-center justify-center">
+      <div className="text-center mb-8">
+        <h1 className="text-4xl font-bold text-blue-600 mb-2">Welcome to Simurgh Airlines</h1>
+        <h2 className="text-2xl text-gray-700">Search for Flights</h2>
+      </div>
+      <div className="bg-white p-6 rounded shadow-lg w-full max-w-md">
+        <form>
+          <div className="mb-4">
+            <label htmlFor="departure" className="block text-gray-700 text-sm font-bold mb-2">Departure:</label>
+            <select value={departure} id="departure" onChange={(e) => setDeparture(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
               <option value="">Select Departure</option>
               {airports.map((airport, index) => (
                 <option key={index} value={airport.id}>
@@ -58,9 +61,9 @@ export default function Home() {
             </select>
           </div>
 
-          <div>
-            <label htmlFor="destination">Destination:</label>
-            <select value={destination} id="destination" onChange={(e) => setDestination(e.target.value)}>
+          <div className="mb-4">
+            <label htmlFor="destination" className="block text-gray-700 text-sm font-bold mb-2">Destination:</label>
+            <select value={destination} id="destination" onChange={(e) => setDestination(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
               <option value="">Select Destination</option>
               {airports.map((airport, index) => (
                 <option key={index} value={airport.id}>
@@ -70,28 +73,26 @@ export default function Home() {
             </select>
           </div>
 
-          <div>
-            <label htmlFor="departureDate">Departure Date:</label>
+          <div className="mb-4">
+            <label htmlFor="departureDate" className="block text-gray-700 text-sm font-bold mb-2">Departure Date:</label>
             <input
               type="date"
               id="departureDate"
-              className='pl-2 rounded-lg'
               value={departureDate}
               onChange={(e) => setDepartureDate(e.target.value)}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
 
-          <div>
-            <button type="button" className="rounded-lg bg-blue-500 px-3 py-2 text-sm font-extrabold
-              text-white hover:bg-blue-700 focus-visible:outline focus-visible:outline-2
-              focus-visible:outline-offset-2 focus-visible:outline-blue-700" onClick={handleSubmit}>
+          <div className="text-center">
+            <button type="button" onClick={handleSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
               Search Flights
             </button>
           </div>
 
         </form>
       </div>
-
     </div>
+
   )
 }

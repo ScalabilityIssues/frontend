@@ -45,12 +45,23 @@ export default function Staff() {
 
 
     return (
-        <div className="container mx-auto">
-            <div>Ticket id: {ticket?.id}</div>
-            <button type="button" onClick={() => (setTicket(null), setDetectedCode(""))}>Clear</button>
-            {keys.length > 0 ? <div className="mx-auto">
-                <QrScanner successCallback={setDetectedCode} />
-            </div> : <div>Fetching keys...</div>}
+        <div className="container mx-auto p-8">
+            <div className="block text-black-700 mb-4">Ticket id: {ticket?.id}</div>
+            <button
+                type="button"
+                onClick={() => (setTicket(null), setDetectedCode(""))}
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            >
+                Clear
+            </button>
+            {keys.length > 0 ? (
+                <div className="mx-auto mt-8">
+                    <QrScanner successCallback={setDetectedCode} />
+                </div>
+            ) : (
+                <div className="mt-8 text-center text-gray-500">Fetching keys...</div>
+            )}
         </div>
+
     )
 }
