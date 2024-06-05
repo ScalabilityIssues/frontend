@@ -5,8 +5,7 @@ import { webTransport } from "@/clients/transports/web";
 import QrScanner from "@/components/qr-scanner"
 import { useEffect, useState } from "react"
 import * as ed from '@noble/ed25519';
-import { SignedTicket } from "@/clients/gen/validationsvc/validation";
-import { Ticket } from "@/clients/gen/ticketsrvc/tickets";
+import { SignedTicket, TicketClaims } from "@/clients/gen/validationsvc/validation";
 
 /*
 API pseudo structure
@@ -18,7 +17,7 @@ export default function Staff() {
     const [keys, setKeys] = useState<Uint8Array[]>([])
 
     const [detectedCode, setDetectedCode] = useState<string>("")
-    const [ticket, setTicket] = useState<Ticket | null>(null)
+    const [ticket, setTicket] = useState<TicketClaims | null>(null)
 
     useEffect(() => {
         new ValidationClient(webTransport).getVerificationKeys({}).then((result) => {
@@ -34,7 +33,7 @@ export default function Staff() {
 
         ed.verifyAsync(signature, ticketBlob, keys[0]).then(isValid => {
             if (isValid) {
-                setTicket(Ticket.fromBinary(ticketBlob))
+                setTicket(TicketClaims.fromBinary(ticketBlob))
             }
             else {
                 console.log('Invalid signature');
@@ -45,7 +44,7 @@ export default function Staff() {
 
     return (
         <div className="container mx-auto p-8">
-            <div className="block text-black-700 mb-4">Ticket id: {ticket?.id}</div>
+            <div className="block text-black-700 mb-4">Ticket id: {ticket?.ticketId}</div>
             <button
                 type="button"
                 onClick={() => (setTicket(null), setDetectedCode(""))}
