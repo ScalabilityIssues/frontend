@@ -7,6 +7,7 @@ import { webTransport } from "@/clients/transports/web";
 import { Offer, OfferClaims } from "@/clients/gen/salesvc/sale";
 import { PassengerDetails } from "@/clients/gen/ticketsrvc/tickets";
 import { Timestamp } from "@/clients/gen/google/protobuf/timestamp";
+import { AirportsClient } from "@/clients/gen/flightmngr/airports.client";
 /*
 API pseudo structure
 - On GET with the params, it will return the list of flights calling the gRPC method (if no params return all the not sold flights)
@@ -31,7 +32,8 @@ export default function Flights({ searchParams }: {
     const [offers, setOffers] = useState<Offer[]>([]);
     const [selectedOffer, setSelectedOffer] = useState(-1);
     const [currentPage, setCurrentPage] = useState(1);
-
+    const [departure_name, setDepartureName] = useState('');
+    const [destination_name, setDestinationName] = useState('');
     const [step, setStep] = useState(1); // 1: Select flight, 2: Enter user info
     const [passenger, setPassenger] = useState({
         ssn: '',
@@ -45,6 +47,7 @@ export default function Flights({ searchParams }: {
 
 
     const saleClient = new SaleClient(webTransport);
+    const clientAirports = new AirportsClient(webTransport);
 
     useEffect(() => {
         if (departure && destination && departureDate) {
@@ -56,6 +59,18 @@ export default function Flights({ searchParams }: {
             });
         }
     }, [departure, destination, departureDate]);
+
+    useEffect(() => {
+        if (departure && destination) {
+            clientAirports.getAirport({ id: departure }).then((result) => {
+                setDepartureName(result.response.name);
+            });
+            clientAirports.getAirport({ id: destination }).then((result) => {
+                setDestinationName(result.response.name);
+            });
+        }
+
+    }, [departure, destination]);
 
     const handlePrevious = () => {
         setStep(1);
@@ -115,6 +130,7 @@ export default function Flights({ searchParams }: {
             {step === 1 ? (
                 <>
                     <h1 className="text-2xl font-bold mb-6">Flight Results</h1>
+                    <h2 className="text-xl font-semibold">From {departure_name} to {destination_name}</h2>
                     {offers.length > 0 ? (
                         <>
                             <ul className="space-y-4">
@@ -152,7 +168,7 @@ export default function Flights({ searchParams }: {
                                 </button>
                             </div>
                             <button type="button" onClick={handleNext} disabled={selectedOffer === -1} className="mt-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-                                Next
+                                Add passenger info
                             </button>
                         </>
                     ) : (
