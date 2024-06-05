@@ -37,3 +37,4 @@ next-env.d.ts
 
 # generated files
 clients/gen/
+public/sw.js

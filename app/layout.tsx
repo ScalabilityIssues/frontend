@@ -6,7 +6,8 @@ import Footer from "@/components/footer";
 
 
 export const metadata: Metadata = {
-  title: 'Simurgh Airlines',
+  applicationName: 'Simurgh Airlines',
+  title: { default: 'Simurgh Airlines', template: '%s - Simurgh Airlines' },
   description: 'Flight tickets management system',
 }
 
