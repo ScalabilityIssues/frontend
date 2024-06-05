@@ -89,7 +89,6 @@ export default function TicketIdDetails({ params }: { params: { id: string } }) 
                     <div className="space-y-4">
                         <p className={`block ${ticket.ticketStatus == 0 ? 'text-green-600' : 'text-red-600'}`}><span className="font-semibold">Status:</span> {ticket.ticketStatus == 0 ? "Valid" : "Deleted"}</p>
                         <p className="block text-black-700"><span className="font-semibold">Reservation datetime:</span> {ticket.reservationDatetime ? (Timestamp.toDate(ticket.reservationDatetime).toLocaleString()) : ("No info available")}</p>
-                        <p className="block text-black-700"><span className="font-semibold">Estimated cargo weight:</span> {ticket.estimatedCargoWeight}</p>
 
                         <h2 className="text-2xl font-semibold mt-6">QR Code</h2>
                         <QrCode data={qrCode} className="w-1/3 mx-auto" alt="Ticket QR Code" />
