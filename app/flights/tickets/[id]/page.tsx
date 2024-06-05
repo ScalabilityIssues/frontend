@@ -28,7 +28,7 @@ export default function TicketIdDetails({ params }: { params: { id: string } }) 
     useEffect(() => {
 
         clientTicket.getTicketWithQrCode({
-            query: { oneofKind: "id", id: params.id },
+            query: { oneofKind: "url", url: params.id },
             allowNonvalid: false
         }).then((result) => {
             setTicket(result.response.ticket)
@@ -87,7 +87,6 @@ export default function TicketIdDetails({ params }: { params: { id: string } }) 
                 <>
                     <h1 className="text-2xl font-bold text-center mb-6">Ticket Details</h1>
                     <div className="space-y-4">
-                        <p className="block text-black-700"><span className="font-semibold">Id:</span> {ticket.id}</p>
                         <p className={`block ${ticket.ticketStatus == 0 ? 'text-green-600' : 'text-red-600'}`}><span className="font-semibold">Status:</span> {ticket.ticketStatus == 0 ? "Valid" : "Deleted"}</p>
                         <p className="block text-black-700"><span className="font-semibold">Reservation datetime:</span> {ticket.reservationDatetime ? (Timestamp.toDate(ticket.reservationDatetime).toLocaleString()) : ("No info available")}</p>
                         <p className="block text-black-700"><span className="font-semibold">Estimated cargo weight:</span> {ticket.estimatedCargoWeight}</p>

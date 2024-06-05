@@ -50,9 +50,6 @@ export default function AirportsAdmin() {
                         <p className="text-gray-700"><strong>ICAO code:</strong> {airport.icao}</p>
                         <p className="text-gray-700"><strong>City:</strong> {airport.city}</p>
                         <p className="text-gray-700"><strong>Country:</strong> {airport.country}</p>
-                        <p className={`text-sm font-bold ${airport.deleted ? 'text-red-600' : 'text-green-600'}`}>
-                            Deleted: {airport.deleted ? "Yes" : "No"}
-                        </p>
                     </li>
                 ))}
             </ul>

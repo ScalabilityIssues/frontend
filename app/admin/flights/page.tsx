@@ -14,9 +14,14 @@ API pseudo structure
 - On GET show the form for inserting new flights
 - On form submit call gRPC method to insert the new flight
 */
+
+
+
 export default function FlightsAdmin() {
+    const ITEMS_PER_PAGE = 20;
     const [flights, setFlights] = useState<Flight[]>([]);
     const [airportDict, setAirportDict] = useState<Record<string, Airport>>({});
+    const [currentPage, setCurrentPage] = useState(1);
     const router = useRouter();
     const clientAirports = new AirportsClient(webTransport);
     const clientFlights = new FlightsClient(webTransport);
@@ -35,6 +40,13 @@ export default function FlightsAdmin() {
         });
     }, []);
 
+    const handlePageChange = (newPage: number) => {
+        setCurrentPage(newPage);
+    };
+
+    const paginatedFlights = flights.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(flights.length / ITEMS_PER_PAGE);
+
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold text-center mb-6">Flight List</h1>
@@ -50,7 +62,7 @@ export default function FlightsAdmin() {
                         </tr>
                     </thead>
                     <tbody className="text-gray-700 text-sm">
-                        {flights.map((flight, index) => (
+                        {paginatedFlights.map((flight, index) => (
                             <tr key={index} className="border-b border-gray-200 hover:bg-gray-100">
                                 <td className="py-3 px-6 text-left">{airportDict[flight.originId]?.name} - {airportDict[flight.originId]?.iata}</td>
                                 <td className="py-3 px-6 text-left">{airportDict[flight.destinationId]?.name} - {airportDict[flight.destinationId]?.iata}</td>
@@ -64,8 +76,26 @@ export default function FlightsAdmin() {
                         ))}
                     </tbody>
                 </table>
+                <div className="flex justify-between items-center mt-4">
+                    <button
+                        type="button"
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 disabled:opacity-50"
+                    >
+                        Previous
+                    </button>
+                    <span>Page {currentPage} of {totalPages}</span>
+                    <button
+                        type="button"
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 disabled:opacity-50"
+                    >
+                        Next
+                    </button>
+                </div>
             </div>
         </div>
-
     )
 }
