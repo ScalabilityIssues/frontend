@@ -3,10 +3,9 @@
 import { ValidationClient } from "@/clients/gen/validationsvc/validation.client"
 import { webTransport } from "@/clients/transports/web";
 import QrScanner from "@/components/qr-scanner"
-import { useCallback, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import * as ed from '@noble/ed25519';
 import { SignedTicket } from "@/clients/gen/validationsvc/validation";
-import { Html5QrcodeResult } from "html5-qrcode";
 import { Ticket } from "@/clients/gen/ticketsrvc/tickets";
 
 /*

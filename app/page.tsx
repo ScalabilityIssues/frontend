@@ -1,6 +1,6 @@
 "use client"
 
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from "next/navigation";
 import { webTransport } from '@/clients/transports/web'
 import { AirportsClient } from '@/clients/gen/flightmngr/airports.client';

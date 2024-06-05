@@ -10,7 +10,6 @@ import { TicketsClient } from '@/clients/gen/ticketsrvc/tickets.client'
 import { webTransport } from '@/clients/transports/web'
 import FlightStatusEventComponent from '@/components/flight-status'
 import QrCode from '@/components/qr-code'
-import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
 

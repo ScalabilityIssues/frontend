@@ -3,9 +3,8 @@
 import { Plane } from "@/clients/gen/flightmngr/planes";
 import { PlanesClient } from "@/clients/gen/flightmngr/planes.client";
 import { webTransport } from "@/clients/transports/web";
-import { appendFileSync } from "fs";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 
 export default function AddPlanesAdmin() {

@@ -1,15 +1,10 @@
 "use client"
 
-import { Airport } from "@/clients/gen/flightmngr/airports";
-import { AirportsClient } from "@/clients/gen/flightmngr/airports.client";
-import { Flight } from "@/clients/gen/flightmngr/flights";
-import { FlightsClient } from "@/clients/gen/flightmngr/flights.client";
 import { Plane } from "@/clients/gen/flightmngr/planes";
 import { PlanesClient } from "@/clients/gen/flightmngr/planes.client";
-import { Timestamp } from "@/clients/gen/google/protobuf/timestamp";
 import { webTransport } from "@/clients/transports/web";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState, Suspense } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 
 export default function PlanesIdAdmin({ params }: { params: { id: string } }) {
