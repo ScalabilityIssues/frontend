@@ -36,10 +36,6 @@ export default function PlanesAdmin() {
                         <h2 className="text-2xl font-semibold mb-2">{plane.model}</h2>
                         <p className="block text-black-700"><span className="font-semibold">Cabin capacity (number of persons):</span> {plane.cabinCapacity}</p>
                         <p className="block text-black-700"><span className="font-semibold">Cargo capacity (in kg):</span> {plane.cargoCapacityKg}</p>
-                        <p className={`block text-black-700 ${plane.deleted ? 'text-red-600' : 'text-green-600'}`}><span className="font-semibold">Deleted:</span> {plane.deleted ? "Yes" : "No"}</p>
-                        <button type="button" onClick={() => { router.push(`/admin/planes/${plane.id}`) }} className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-                            Edit
-                        </button>
                     </li>
                 ))}
             </ul>
